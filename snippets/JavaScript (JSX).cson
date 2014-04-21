@@ -1,0 +1,86 @@
+{
+".source.js":
+  "React: var cx = React.addons.classSet;":
+    prefix: "cs"
+    body: "\nvar cx = React.addons.classSet;\n"
+
+  "React: componentDidMount: fn() { ... }":
+    prefix: "cdm"
+    body: "\ncomponentDidMount: function() {\n\t${1}\n},\n"
+
+  "React: componentDidUpdate: fn(pp, ps) { ... }":
+    prefix: "cdup"
+    body: "\ncomponentDidUpdate: function(prevProps, prevState) {\n\t${1}\n},\n"
+
+  "React: componentWillMount: fn() { ... }":
+    prefix: "cwm"
+    body: "\ncomponentWillMount: function() {\n\t${1}\n},\n"
+
+  "React: componentWillReceiveProps: fn(np) { ... }":
+    prefix: "cwr"
+    body: "\ncomponentWillReceiveProps: function(nextProps) {\n\t${1}\n},\n"
+
+  "React: componentWillUnmount: fn() { ... }":
+    prefix: "cwun"
+    body: "\ncomponentWillUnmount: function() {\n\t${1}\n},\n"
+
+  "React: componentWillUpdate: fn(np, ns) { ... }":
+    prefix: "cwu"
+    body: "\ncomponentWillUpdate: function(nextProps, nextState) {\n\t${1}\n},\n"
+
+  "React: cx({ ... })":
+    prefix: "cx"
+    body: "\ncx({\n\t$1: $2\n});\n"
+
+  "React: forceUpdate(...)":
+    prefix: "fup"
+    body: "\nforceUpdate(${1:callback});\n"
+
+  "React: getDefaultProps: fn() { return {...} } ":
+    prefix: "gdp"
+    body: "\ngetDefaultProps: function() {\n\treturn {\n\t\t${1}\n\t};\n},\n"
+
+  "React: getInitialState: fn() { return {...} } ":
+    prefix: "gis"
+    body: "\ngetInitialState: function() {\n\treturn {\n\t\t${1}: ${2}\n\t};\n},\n"
+
+  "React: isMounted()":
+    prefix: "ism"
+    body: "\nisMounted()\n"
+
+  "React: /** @jsx */":
+    prefix: "jsx"
+    body: "/**\n * @jsx React.DOM\n */\n"
+
+  "React: propTypes { ... }":
+    prefix: "pt"
+    body: "\npropTypes: {\n\t${1}: React.PropTypes.${2:string}\n},\n"
+
+  "React: component skeleton":
+    prefix: "rcc"
+    body: "/**\n * @jsx React.DOM\n */\n\nvar React = require('React');\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};\n"
+
+  "React: render: fn() { return ... }":
+    prefix: "ren"
+    body: "\nrender: function() {\n\treturn (\n\t\t${1:<div />}\n\t);\n}\n"
+
+  "React: setState({ ... })":
+    prefix: "sst"
+    body: "\nsetState({\n\t${1}: ${2}\n});\n"
+
+  "React: shouldComponentUpdate: fn(np, ns) { ... }":
+    prefix: "scu"
+    body: "\nshouldComponentUpdate: function(nextProps, nextState) {\n\t${1}\n},\n"
+
+  "React: this.props.":
+    prefix: "props"
+    body: "\nthis.props.${1}\n"
+
+  "React: this.state.":
+    prefix: "state"
+    body: "\nthis.state.${1}\n"
+
+  "React: transferPropsTo( ... )":
+    prefix: "trp"
+    body: "\ntransferPropsTo(${1});\n"
+}

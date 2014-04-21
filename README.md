@@ -1,4 +1,3 @@
-atom-react
-==========
+# react package
 
-ReactJS Support for atom (syntax, snippets
+A short description of your package.

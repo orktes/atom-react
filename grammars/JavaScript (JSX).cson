@@ -714,7 +714,7 @@
 
     "jsx-tag-close":
       match: "(</)([^>]+)(>)"
-      name: "tag.close.js"
+      name: "tag.closed.js"
       captures:
         1:
           name: "punctuation.definition.tag.begin.js"

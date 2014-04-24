@@ -2,7 +2,7 @@
   "name": "react",
   "version": "0.0.1",
   "description": "A short description of your package",
-  "repository": "https://github.com/atom/react",
+  "repository": "https://github.com/orktes/atom-react",
   "license": "Apache 2.0",
   "engines": {
     "atom": ">0.50.0"

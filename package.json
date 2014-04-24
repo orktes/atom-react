@@ -1,7 +1,7 @@
 {
   "name": "react",
   "version": "0.1.0",
-  "description": "A short description of your package",
+  "description": "React.js (JSX) language support and snippets",
   "repository": "https://github.com/orktes/atom-react",
   "license": "Apache 2.0",
   "engines": {

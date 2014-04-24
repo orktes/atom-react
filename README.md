@@ -1,3 +1,6 @@
-# react package
+# Atom React
 
-A short description of your package.
+Initial port of https://github.com/reactjs/sublime-react for Atom.
+
+- Syntax highlighting
+- Snippets 

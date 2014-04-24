@@ -1,12 +1,11 @@
 {
   "name": "react",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A short description of your package",
   "repository": "https://github.com/orktes/atom-react",
   "license": "Apache 2.0",
   "engines": {
     "atom": ">0.50.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

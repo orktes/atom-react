@@ -83,4 +83,8 @@
   "React: transferPropsTo( ... )":
     prefix: "trp"
     body: "\ntransferPropsTo(${1});\n"
+
+  "React: renderComponent(component, container, [callback])":
+    prefix: "rrc"
+    body: "React.renderComponent(${1:<$2 />}, ${3:document.body}${4:, ${5:callback}});"
 }

@@ -630,7 +630,7 @@
 
     "jsx-tag-attribute-name":
       name: "meta.tag.attribute-name.js"
-      match: "\\b([a-zA-Z\\-:]+)"
+      match: "\\b([a-zA-Z0-9\\-:]+)"
       captures:
         1:
           name: "entity.other.attribute-name.js"

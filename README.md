@@ -1,6 +1,8 @@
 # Atom React.js support
 
-Initial port (work in progress) of https://github.com/reactjs/sublime-react for Atom.
+Initially a port of [sublime-react](https://github.com/reactjs/sublime-react) for [Atom](https://github.com/atom/atom).
+
+## Features
 
 - Syntax highlighting
 - Snippets

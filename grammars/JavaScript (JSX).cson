@@ -1,6 +1,7 @@
 'name': 'JavaScript (JSX)'
-'scopeName': 'source.jsx'
+'scopeName': 'source.js.jsx'
 'fileTypes': [
+  'htc'
   'js'
   'jsx'
 ]
@@ -124,7 +125,7 @@
     'begin': '\\('
     'end': '\\)'
     'beginCaptures':
-      '0':
+      '0':v
         'name': 'meta.brace.round.js'
     'endCaptures':
       '0':

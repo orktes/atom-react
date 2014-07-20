@@ -1,8 +1,7 @@
 'name': 'JavaScript (JSX)'
-'scopeName': 'source.js'
+'scopeName': 'source.jsx'
 'fileTypes': [
   'js'
-  'htc'
   'jsx'
 ]
 'patterns': [

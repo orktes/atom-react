@@ -125,7 +125,7 @@
     'begin': '\\('
     'end': '\\)'
     'beginCaptures':
-      '0':v
+      '0':
         'name': 'meta.brace.round.js'
     'endCaptures':
       '0':

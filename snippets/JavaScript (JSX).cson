@@ -48,17 +48,13 @@
     prefix: "ism"
     body: "\nisMounted()\n"
 
-  "React: /** @jsx */":
-    prefix: "jsx"
-    body: "/**\n * @jsx React.DOM\n */\n"
-
   "React: propTypes { ... }":
     prefix: "pt"
     body: "\npropTypes: {\n\t${1}: React.PropTypes.${2:string}\n},\n"
 
   "React: component skeleton":
     prefix: "rcc"
-    body: "/**\n * @jsx React.DOM\n */\n\nvar React = require('react');\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};\n"
+    body: "var React = require('react');\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};\n"
 
   "React: render: fn() { return ... }":
     prefix: "ren"

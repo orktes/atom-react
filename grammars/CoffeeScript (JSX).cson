@@ -438,7 +438,7 @@
       '3':
         'name': 'punctuation.definition.tag.end.coffee'
     'match': '(</)([^>]+)(>)'
-    'name': 'tag.close.coffee'
+    'name': 'tag.closed.coffee'
   'jsx-tag-invalid':
     'match': '<\\s*>'
     'name': 'invalid.illegal.tag.incomplete.coffee'

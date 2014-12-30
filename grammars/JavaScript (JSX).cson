@@ -717,7 +717,7 @@
       }
       {
         'name': 'storage.type.js'
-        'match': '\\b(boolean|byte|char|class|double|enum|float|function|int|interface|long|short|var|void)\\b'
+        'match': '\\b(boolean|byte|char|class|double|enum|float|function|int|interface|long|short|var|let|void)\\b'
       }
       {
         'name': 'storage.modifier.js'

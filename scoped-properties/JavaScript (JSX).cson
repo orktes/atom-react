@@ -1,17 +1,19 @@
 '.source.js.jsx':
   'editor':
     'commentStart': '// '
-    'foldEndPattern': '(?x)\n\t\t(</(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|li|form|dl|section|article|header|footer|nav|aside)>\n\t\t|^(?!.*?<!--).*?--\\s*>\n\t\t|^<!--\\ end\\ tminclude\\ -->$\n\t\t|^[^{]*\\}\n\t\t|^\\s*\\)[,;]\n\t\t)'
+    'foldEndPattern': '(\\s*(</[^>]+>|[/%]>|-->|/>)\\s*$)|(^\\s*\\}|^\\s*\\]|^\\s*\\))'
     'increaseIndentPattern': '(?x)
-      <(?!\\?|(?:area|base|br|col|frame|hr|html|img|input|link|meta|param)\\b|[^>]*/>)
-      ([-_\\.A-Za-z0-9]+)(?=\\s|>)\\b[^>]*>(?!.*</\\1>)
-      | \\( [^)"\']* $
-      |\\{[^}"\']*$
+      \\{ [^}"\']* $
+    | \\( [^)"\']* $
+    | case[\\s\\S]*: $
+    | default: $
+    | ^ \\s* if \\s* \\( (?!.*?(\\belse\\b|[;}]\\s*$))
+    | ^ \\s* \\}? \\s* else \\s* (?!.*?;\\s*$)
+    | ^ \\s* (for|while) \\s* \\( (?!.*?;\\s*$)
+    | ^ \\s* do \\s* $
+    | (^\\s*<(([^!/?]|%)(?!.+?([/%]>|</.+?>))|[%!]--\\s*$))
     '
     'decreaseIndentPattern': '(?x)
-      ^\\s*
-      (</(?!html)
-        [-_\\.A-Za-z0-9]+\\b[^>]*>
-        |\\)
-        |\\}
-      )'
+    ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]
+    | ^\\s*(</[^>]+>|-->|--%>)
+    '

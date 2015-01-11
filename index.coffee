@@ -30,10 +30,12 @@ class AtomReact
       return if precedingRow < 0
 
       precedingLine = @buffer.lineForRow(precedingRow)
+      line = @buffer.lineForRow(bufferRow)
+
       if decreaseNextLineIndentRegex.testSync(precedingLine) and
          not (increaseIndentRegex and increaseIndentRegex.testSync(precedingLine))
-        console.log("Should decrease indent for line")
         currentIndentLevel = @editor.indentationForBufferRow(precedingRow)
+        currentIndentLevel -= 1 if decreaseIndentRegex and decreaseIndentRegex.testSync(line)
         desiredIndentLevel = currentIndentLevel - 1
         if desiredIndentLevel >= 0 and desiredIndentLevel < currentIndentLevel
           @editor.setIndentationForBufferRow(bufferRow, desiredIndentLevel)
@@ -60,7 +62,6 @@ class AtomReact
       #indent += 1 if increaseIndentRegex.testSync(precedingLine);
       console.log(precedingLine,indent)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine)
-      console.log(precedingLine,indent)
 
       return Math.max(indent, 0)
 

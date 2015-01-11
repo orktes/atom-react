@@ -13,6 +13,9 @@ isJSX = (text) ->
 
 class AtomReact
   Subscriber.includeInto(this)
+  tagStartRegex: new OnigRegExp('(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))')
+  complexAttributeRegex: new OnigRegExp('(?x)\\{ [^}"\']* $|\\( [^)"\']* $')
+
   constructor: ->
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
     self = this
@@ -32,7 +35,7 @@ class AtomReact
       precedingLine = @buffer.lineForRow(precedingRow)
       line = @buffer.lineForRow(bufferRow)
 
-      if decreaseNextLineIndentRegex.testSync(precedingLine) and
+      if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine) and
          not (increaseIndentRegex and increaseIndentRegex.testSync(precedingLine))
         currentIndentLevel = @editor.indentationForBufferRow(precedingRow)
         currentIndentLevel -= 1 if decreaseIndentRegex and decreaseIndentRegex.testSync(line)
@@ -47,17 +50,19 @@ class AtomReact
     fn = editor.languageMode.suggestedIndentForBufferRow
     editor.languageMode.suggestedIndentForBufferRow = (bufferRow, options) ->
       indent = fn.call(editor.languageMode, bufferRow, options)
-      return indent unless editor.getGrammar().scopeName == "source.js.jsx"
+      return indent unless editor.getGrammar().scopeName == "source.js.jsx" and bufferRow > 1
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
       decreaseNextLineIndentRegex = self.decreaseNextLineIndentRegex(editor)
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
+
       precedingRow = @buffer.previousNonBlankRow(bufferRow)
 
       return indent if precedingRow < 0
 
       precedingLine = @buffer.lineForRow(precedingRow)
 
+      indent += 1 if self.tagStartRegex.testSync(precedingLine) and self.complexAttributeRegex.testSync(precedingLine)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine)
 
       return Math.max(indent, 0)

@@ -1,6 +1,17 @@
 '.source.js.jsx':
   'editor':
     'commentStart': '// '
-    'foldEndPattern': '(^\\s*\\</|^\\s*\\}|^\\s*\\]|^\\s*\\)'
-    'increaseIndentPattern': '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
-    'decreaseIndentPattern': '(?x)^\\s*(</)'
+    'foldEndPattern': '(^\\s*\\</|^\\s*\\}|^\\s*\\]|^\\s*\\|/>\\s*$)'
+    'increaseIndentPattern': '(?x)
+    ((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))
+    | \\{ [^}"\']* $
+    | \\( [^)"\']* $
+    | case[\\s\\S]*: $
+    | default: $
+    | ^ \\s* if \\s* \\( (?!.*?(\\belse\\b|[;}]\\s*$))
+    | ^ \\s* \\}? \\s* else \\s* (?!.*?;\\s*$)
+    | ^ \\s* (for|while) \\s* \\( (?!.*?;\\s*$)
+    | ^ \\s* do \\s* $'
+    'decreaseIndentPattern': '(?x)
+    ^\\s*(</)
+    | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'

@@ -6,5 +6,6 @@ Initially a port of [sublime-react](https://github.com/reactjs/sublime-react) fo
 
 - Syntax highlighting
 - Snippets
+- Automatic indentation and folding
 
 Contributions are greatly appreciated. Please fork this repository and open a pull request to add snippets, make grammar tweaks, etc.

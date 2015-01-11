@@ -54,13 +54,10 @@ class AtomReact
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
       precedingRow = @buffer.previousNonBlankRow(bufferRow)
 
-
       return indent if precedingRow < 0
 
       precedingLine = @buffer.lineForRow(precedingRow)
 
-      #indent += 1 if increaseIndentRegex.testSync(precedingLine);
-      console.log(precedingLine,indent)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine)
 
       return Math.max(indent, 0)

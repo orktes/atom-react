@@ -8,6 +8,8 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
+    "oniguruma": "^3.0.4",
+    "emissary": "1.x",
     "jstransform": "~6.1.0"
   }
 }

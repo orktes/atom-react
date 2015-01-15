@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "emissary": "1.x",
-    "jsxformat": "1.0.2",
+    "jsxformat": "0.0.2",
     "jstransform": "~6.1.0"
   }
 }

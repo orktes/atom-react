@@ -17,4 +17,4 @@
     'decreaseIndentPattern': '(?x)
     ^\\s*(</)
     | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'
-    'decreaseIndentForNextLinePattern': '/>\\s*$'
+    'decreaseIndentForNextLinePattern': '/>\\s*,?\\s*$'

@@ -1,0 +1,23 @@
+'menu': [
+  {
+    'label': 'Edit'
+    'submenu': [
+      {
+        'label': 'JSX'
+        'submenu': [
+          {
+            'label': 'Reformat'
+            'command': 'react:reformat'
+          }
+        ]
+      }
+    ]
+  }
+]
+'context-menu':
+  'atom-workspace': [
+    {
+      label: 'Reformat JSX'
+      command: 'react:reformat'
+    }
+  ]

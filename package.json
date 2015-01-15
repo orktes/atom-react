@@ -1,6 +1,6 @@
 {
   "name": "react",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "React.js (JSX) language support and snippets",
   "repository": "https://github.com/orktes/atom-react",
   "license": "Apache 2.0",

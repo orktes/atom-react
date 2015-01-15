@@ -59,6 +59,8 @@ class AtomReact
       return indent if precedingRow < 0
 
       precedingLine = @buffer.lineForRow(precedingRow)
+      
+      return indent if not precedingLine?
 
       indent += 1 if tagStartRegex.testSync(precedingLine) and complexAttributeRegex.testSync(precedingLine)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine)

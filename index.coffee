@@ -20,7 +20,7 @@ class AtomReact
       return fn.call(editor.languageMode, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'editor.decreaseIndentForNextLinePattern')
+      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'decreaseIndentForNextLinePattern')
       decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
@@ -49,10 +49,10 @@ class AtomReact
       return indent unless editor.getGrammar().scopeName == "source.js.jsx" and bufferRow > 1
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'editor.decreaseIndentForNextLinePattern')
+      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'decreaseIndentForNextLinePattern')
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
-      tagStartRegex = @getRegexForProperty(scopeDescriptor, 'editor.jsxTagStartPattern')
-      complexAttributeRegex = @getRegexForProperty(scopeDescriptor, 'editor.jsxComplexAttributePattern')
+      tagStartRegex = @getRegexForProperty(scopeDescriptor, 'jsxTagStartPattern')
+      complexAttributeRegex = @getRegexForProperty(scopeDescriptor, 'jsxComplexAttributePattern')
 
       precedingRow = @buffer.previousNonBlankRow(bufferRow)
 
@@ -76,6 +76,14 @@ class AtomReact
       editor.setGrammar jsxGrammar if jsxGrammar
 
   activate: ->
+    jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+    jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
+    decreaseIndentForNextLinePattern = '/>\\s*,?\\s*$'
+
+    atom.config.set("jsxTagStartPattern", jsxTagStartPattern)
+    atom.config.set("jsxComplexAttributePattern", jsxComplexAttributePattern)
+    atom.config.set("decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
+
     # Patch edtiors language mode to get proper indention
     @patchEditorLangMode(editor) for editor in atom.workspace.getTextEditors()
     @autoSetGrammar(editor) for editor in atom.workspace.getTextEditors()

@@ -71,19 +71,24 @@ class AtomReact
     @patchEditorLangModeSuggestedIndentForBufferRow(editor)
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)
 
+  autoSetGrammar: (editor) ->
+    # Check if file extension is .jsx or the file has the old JSX notation
+    if path.extname(editor.getPath()) is ".jsx" or isJSX(editor.getText())
+      jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
+      editor.setGrammar jsxGrammar if jsxGrammar
+
   activate: ->
     # Patch edtiors language mode to get proper indention
     @patchEditorLangMode(editor) for editor in atom.workspace.getTextEditors()
+    @autoSetGrammar(editor) for editor in atom.workspace.getTextEditors()
 
     @subscribe atom.workspace.onDidAddTextEditor (event) =>
       editor = event.textEditor
 
       @patchEditorLangMode(editor)
+      @autoSetGrammar(editor)
 
-      # Check if file extension is .jsx or the file has the old JSX notation
-      if path.extname(editor.getPath()) is ".jsx" or isJSX(editor.getText())
-        jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
-        editor.setGrammar jsxGrammar if jsxGrammar
+
 
 
 module.exports = new AtomReact

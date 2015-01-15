@@ -2,6 +2,8 @@
   'editor':
     'commentStart': '// '
     'foldEndPattern': '(^\\s*\\</|^\\s*\\}|^\\s*\\]|^\\s*\\|/>\\s*$)'
+    'jsxTagStartPattern': '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+    'jsxComplexAttributePattern': '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
     'increaseIndentPattern': '(?x)
     ((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))
     | \\{ [^}"\']* $
@@ -15,3 +17,4 @@
     'decreaseIndentPattern': '(?x)
     ^\\s*(</)
     | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'
+    'decreaseIndentForNextLinePattern': '/>\\s*$'

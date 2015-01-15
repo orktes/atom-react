@@ -2,7 +2,6 @@ path   = require 'path'
 docblock = require 'jstransform/src/docblock'
 
 {Subscriber} = require 'emissary'
-{OnigRegExp} = require 'oniguruma'
 
 # use same docblock parser as jsxtransformer does
 isJSX = (text) ->
@@ -13,9 +12,6 @@ isJSX = (text) ->
 
 class AtomReact
   Subscriber.includeInto(this)
-  tagStartRegex: new OnigRegExp('(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))')
-  complexAttributeRegex: new OnigRegExp('(?x)\\{ [^}"\']* $|\\( [^)"\']* $')
-  decreaseNextLineIndentRegex: new OnigRegExp('/>\\s*$')
   constructor: ->
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
     self = this
@@ -24,7 +20,7 @@ class AtomReact
       return fn.call(editor.languageMode, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = self.decreaseNextLineIndentRegex
+      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'editor.decreaseIndentForNextLinePattern')
       decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
@@ -53,8 +49,10 @@ class AtomReact
       return indent unless editor.getGrammar().scopeName == "source.js.jsx" and bufferRow > 1
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = self.decreaseNextLineIndentRegex
+      decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'editor.decreaseIndentForNextLinePattern')
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      tagStartRegex = @getRegexForProperty(scopeDescriptor, 'editor.jsxTagStartPattern')
+      complexAttributeRegex = @getRegexForProperty(scopeDescriptor, 'editor.jsxComplexAttributePattern')
 
       precedingRow = @buffer.previousNonBlankRow(bufferRow)
 
@@ -62,7 +60,7 @@ class AtomReact
 
       precedingLine = @buffer.lineForRow(precedingRow)
 
-      indent += 1 if self.tagStartRegex.testSync(precedingLine) and self.complexAttributeRegex.testSync(precedingLine)
+      indent += 1 if tagStartRegex.testSync(precedingLine) and complexAttributeRegex.testSync(precedingLine)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine)
 
       return Math.max(indent, 0)

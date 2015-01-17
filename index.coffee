@@ -1,5 +1,7 @@
 path   = require 'path'
 docblock = require 'jstransform/src/docblock'
+jsxformat = require 'jsxformat'
+_ = require 'lodash'
 
 {Subscriber} = require 'emissary'
 
@@ -77,6 +79,62 @@ class AtomReact
       jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
       editor.setGrammar jsxGrammar if jsxGrammar
 
+  onReformat: ->
+    editor = atom.workspace.getActiveEditor()
+    selections = editor.getSelections()
+
+    for selection in selections
+      try
+        jsxformat.setOptions({});
+        result = jsxformat.format(selection.getText())
+        selection.insertText(result, {autoIndent: true});
+      catch err
+        # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only
+        range = selection.getBufferRange().serialize()
+        # esprima ast line count starts for 1
+        range[0][0]++
+        range[1][0]++
+
+        jsxformat.setOptions({range: range});
+
+        # TODO: use fold
+        original = editor.getText();
+
+        try
+          result = jsxformat.format(original)
+          selection.clear();
+
+          lastChangedLine = 0
+          firstChangedLine = range[0][0] - 1
+
+          editor.setText(result);
+
+          originalLines = original.split('\n')
+          resultLines = result.split('\n')
+
+          i = 0
+
+          # TODO: use sourcemaps for this
+          _.findLast resultLines, (newline, index) ->
+            orgline = originalLines[originalLines.length - 1 - i]
+            i++
+
+            if newline != orgline
+              lastChangedLine = index
+              return true
+
+          if lastChangedLine > firstChangedLine
+            for row in [firstChangedLine...(lastChangedLine + 1)]
+              editor.autoIndentBufferRow(row)
+
+          # return back
+          editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
+
+
+  processEditor: (editor) ->
+    @patchEditorLangMode(editor)
+    @autoSetGrammar(editor)
+
   activate: ->
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
@@ -86,17 +144,15 @@ class AtomReact
     atom.config.set("react.jsxComplexAttributePattern", jsxComplexAttributePattern)
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
+    # Bind events
+    atom.workspaceView.command 'react:reformat', @onReformat;
+
     # Patch edtiors language mode to get proper indention
-    @patchEditorLangMode(editor) for editor in atom.workspace.getTextEditors()
-    @autoSetGrammar(editor) for editor in atom.workspace.getTextEditors()
+    @processEditor(editor) for editor in atom.workspace.getTextEditors()
 
     @subscribe atom.workspace.onDidAddTextEditor (event) =>
       editor = event.textEditor
-
-      @patchEditorLangMode(editor)
-      @autoSetGrammar(editor)
-
-
+      @processEditor(editor)
 
 
 module.exports = new AtomReact

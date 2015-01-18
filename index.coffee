@@ -1,13 +1,4 @@
-path   = require 'path'
 {Subscriber} = require 'emissary'
-
-# use same docblock parser as jsxtransformer does
-isJSX = (text) ->
-  docblock = require 'jstransform/src/docblock'
-  doc = docblock.parse text;
-  for b in doc
-    return true if b[0] == 'jsx'
-  false
 
 class AtomReact
   Subscriber.includeInto(this)
@@ -70,20 +61,33 @@ class AtomReact
     @patchEditorLangModeSuggestedIndentForBufferRow(editor)
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)
 
+  isJSX: (text) ->
+    docblock = require 'jstransform/src/docblock'
+    doc = docblock.parse text;
+    for b in doc
+      return true if b[0] == 'jsx'
+    false
+
   autoSetGrammar: (editor) ->
+    return if editor.getGrammar().scopeName == "source.js.jsx"
+
+    path = require 'path'
+
     # Check if file extension is .jsx or the file has the old JSX notation
-    if path.extname(editor.getPath()) is ".jsx" or isJSX(editor.getText())
+    extName = path.extname(editor.getPath())
+    if extName is ".jsx" or (extName is ".js" and @isJSX(editor.getText()))
       jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
       editor.setGrammar jsxGrammar if jsxGrammar
 
   onHTMLToJSX: ->
     jsxformat = require 'jsxformat'
     HTMLtoJSX = require './lib/htmltojsx'
-    converter = new HTMLtoJSX({
-      createClass: false
-    })
+    converter = new HTMLtoJSX(createClass: false)
 
     editor = atom.workspace.getActiveEditor()
+
+    return if not editor?
+
     selections = editor.getSelections()
 
     editor.transact =>
@@ -96,13 +100,16 @@ class AtomReact
             jsxformat.setOptions({});
             jsxOutput = jsxformat.format(jsxOutput)
 
-          selection.insertText(jsxOutput, {autoIndent: true});
+          selection.insertText(jsxOutput, autoIndent: true);
 
   onReformat: ->
     jsxformat = require 'jsxformat'
     _ = require 'lodash'
 
     editor = atom.workspace.getActiveEditor()
+
+    return if not editor?
+
     selections = editor.getSelections()
     editor.transact =>
       for selection in selections
@@ -110,7 +117,7 @@ class AtomReact
           bufStart = selection.getBufferRange().serialize()[0]
           jsxformat.setOptions({});
           result = jsxformat.format(selection.getText())
-          selection.insertText(result, {autoIndent: true});
+          selection.insertText(result, autoIndent: true);
           editor.setCursorBufferPosition(bufStart)
         catch err
           # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only
@@ -155,15 +162,9 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    atom.workspaceView.command 'react:reformat-JSX', @onReformat
-    atom.workspaceView.command 'react:HTML-to-JSX', @onHTMLToJSX
+    atom.commands.add 'atom-workspace', 'react:reformat-JSX', @onReformat
+    atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', @onHTMLToJSX
 
-    # Patch edtiors language mode to get proper indention
-    @processEditor(editor) for editor in atom.workspace.getTextEditors()
-
-    @subscribe atom.workspace.onDidAddTextEditor (event) =>
-      editor = event.textEditor
-      @processEditor(editor)
-
+    atom.workspace.observeTextEditors @processEditor.bind(this)
 
 module.exports = new AtomReact

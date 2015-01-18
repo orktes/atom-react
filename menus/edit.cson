@@ -3,11 +3,15 @@
     'label': 'Edit'
     'submenu': [
       {
-        'label': 'JSX'
+        'label': 'React (JSX)'
         'submenu': [
           {
-            'label': 'Reformat'
+            'label': 'Reformat JSX'
             'command': 'react:reformat'
+          }
+          {
+            'label': 'HTML to JSX'
+            'command': 'react:htmltojsx'
           }
         ]
       }
@@ -19,5 +23,9 @@
     {
       label: 'Reformat JSX'
       command: 'react:reformat'
+    }
+    {
+      label: 'Convert HTML to JSX'
+      command: 'react:htmltojsx'
     }
   ]

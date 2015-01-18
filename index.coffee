@@ -76,6 +76,27 @@ class AtomReact
       jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
       editor.setGrammar jsxGrammar if jsxGrammar
 
+  onHTMLToJSX: ->
+    jsxformat = require 'jsxformat'
+    HTMLtoJSX = require './lib/htmltojsx'
+    converter = new HTMLtoJSX({
+      createClass: false
+    })
+
+    editor = atom.workspace.getActiveEditor()
+    selections = editor.getSelections()
+
+    for selection in selections
+      try
+        selectionText = selection.getText()
+        jsxOutput = converter.convert(selectionText)
+
+        try
+          jsxformat.setOptions({});
+          jsxOutput = jsxformat.format(jsxOutput)
+
+        selection.insertText(jsxOutput, {autoIndent: true});
+
   onReformat: ->
     jsxformat = require 'jsxformat'
     _ = require 'lodash'
@@ -111,9 +132,7 @@ class AtomReact
           firstChangedLine = range[0][0] - 1
           lastChangedLine = range[1][0] - 1 + (newLineCount - originalLineCount)
 
-          if lastChangedLine > firstChangedLine
-            for row in [firstChangedLine...(lastChangedLine + 1)]
-              editor.autoIndentBufferRow(row)
+          editor.autoIndentBufferRows(firstChangedLine, lastChangedLine)
 
           # return back
           editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
@@ -133,7 +152,8 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    atom.workspaceView.command 'react:reformat', @onReformat;
+    atom.workspaceView.command 'react:reformat', @onReformat
+    atom.workspaceView.command 'react:htmltojsx', @onHTMLToJSX
 
     # Patch edtiors language mode to get proper indention
     @processEditor(editor) for editor in atom.workspace.getTextEditors()

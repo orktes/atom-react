@@ -2,7 +2,7 @@
 name: 'JSX Reformatting'
 type: video
 data:
-  height: 393
+  height: 391
   width: 414
   src: assets/JSXReformat.m4v
 ---

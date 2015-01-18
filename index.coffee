@@ -101,11 +101,8 @@ class AtomReact
         original = editor.getText();
 
         try
-          console.log("here1");
           result = jsxformat.format(original)
           selection.clear()
-
-          console.log("here2");
 
           originalLineCount = editor.getLineCount()
           editor.setText(result)
@@ -120,8 +117,6 @@ class AtomReact
 
           # return back
           editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
-        catch err
-          console.log(err)
 
 
   processEditor: (editor) ->

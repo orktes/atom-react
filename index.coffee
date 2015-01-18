@@ -155,8 +155,8 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    atom.workspaceView.command 'react:reformat', @onReformat
-    atom.workspaceView.command 'react:htmltojsx', @onHTMLToJSX
+    atom.workspaceView.command 'react:reformat-JSX', @onReformat
+    atom.workspaceView.command 'react:HTML-to-JSX', @onHTMLToJSX
 
     # Patch edtiors language mode to get proper indention
     @processEditor(editor) for editor in atom.workspace.getTextEditors()

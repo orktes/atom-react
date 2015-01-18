@@ -7,11 +7,11 @@
         'submenu': [
           {
             'label': 'Reformat JSX'
-            'command': 'react:reformat'
+            'command': 'react:reformat-JSX'
           }
           {
             'label': 'HTML to JSX'
-            'command': 'react:htmltojsx'
+            'command': 'react:HTML-to-JSX'
           }
         ]
       }
@@ -22,10 +22,10 @@
   'atom-workspace': [
     {
       label: 'Reformat JSX'
-      command: 'react:reformat'
+      command: 'react:reformat-JSX'
     }
     {
       label: 'Convert HTML to JSX'
-      command: 'react:htmltojsx'
+      command: 'react:HTML-to-JSX'
     }
   ]

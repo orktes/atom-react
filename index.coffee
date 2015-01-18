@@ -107,9 +107,11 @@ class AtomReact
     editor.transact =>
       for selection in selections
         try
+          bufStart = selection.getBufferRange().serialize()[0]
           jsxformat.setOptions({});
           result = jsxformat.format(selection.getText())
           selection.insertText(result, {autoIndent: true});
+          editor.setCursorBufferPosition(bufStart)
         catch err
           # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only
           range = selection.getBufferRange().serialize()

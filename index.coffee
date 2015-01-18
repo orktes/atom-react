@@ -86,16 +86,17 @@ class AtomReact
     editor = atom.workspace.getActiveEditor()
     selections = editor.getSelections()
 
-    for selection in selections
-      try
-        selectionText = selection.getText()
-        jsxOutput = converter.convert(selectionText)
-
+    editor.transact =>
+      for selection in selections
         try
-          jsxformat.setOptions({});
-          jsxOutput = jsxformat.format(jsxOutput)
+          selectionText = selection.getText()
+          jsxOutput = converter.convert(selectionText)
 
-        selection.insertText(jsxOutput, {autoIndent: true});
+          try
+            jsxformat.setOptions({});
+            jsxOutput = jsxformat.format(jsxOutput)
+
+          selection.insertText(jsxOutput, {autoIndent: true});
 
   onReformat: ->
     jsxformat = require 'jsxformat'
@@ -103,39 +104,39 @@ class AtomReact
 
     editor = atom.workspace.getActiveEditor()
     selections = editor.getSelections()
-
-    for selection in selections
-      try
-        jsxformat.setOptions({});
-        result = jsxformat.format(selection.getText())
-        selection.insertText(result, {autoIndent: true});
-      catch err
-        # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only
-        range = selection.getBufferRange().serialize()
-        # esprima ast line count starts for 1
-        range[0][0]++
-        range[1][0]++
-
-        jsxformat.setOptions({range: range});
-
-        # TODO: use fold
-        original = editor.getText();
-
+    editor.transact =>
+      for selection in selections
         try
-          result = jsxformat.format(original)
-          selection.clear()
+          jsxformat.setOptions({});
+          result = jsxformat.format(selection.getText())
+          selection.insertText(result, {autoIndent: true});
+        catch err
+          # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only
+          range = selection.getBufferRange().serialize()
+          # esprima ast line count starts for 1
+          range[0][0]++
+          range[1][0]++
 
-          originalLineCount = editor.getLineCount()
-          editor.setText(result)
-          newLineCount = editor.getLineCount()
+          jsxformat.setOptions({range: range});
 
-          firstChangedLine = range[0][0] - 1
-          lastChangedLine = range[1][0] - 1 + (newLineCount - originalLineCount)
+          # TODO: use fold
+          original = editor.getText();
 
-          editor.autoIndentBufferRows(firstChangedLine, lastChangedLine)
+          try
+            result = jsxformat.format(original)
+            selection.clear()
 
-          # return back
-          editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
+            originalLineCount = editor.getLineCount()
+            editor.setText(result)
+            newLineCount = editor.getLineCount()
+
+            firstChangedLine = range[0][0] - 1
+            lastChangedLine = range[1][0] - 1 + (newLineCount - originalLineCount)
+
+            editor.autoIndentBufferRows(firstChangedLine, lastChangedLine)
+
+            # return back
+            editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
 
 
   processEditor: (editor) ->

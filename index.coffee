@@ -101,27 +101,18 @@ class AtomReact
         original = editor.getText();
 
         try
+          console.log("here1");
           result = jsxformat.format(original)
-          selection.clear();
+          selection.clear()
 
-          lastChangedLine = 0
+          console.log("here2");
+
+          originalLineCount = editor.getLineCount()
+          editor.setText(result)
+          newLineCount = editor.getLineCount()
+
           firstChangedLine = range[0][0] - 1
-
-          editor.setText(result);
-
-          originalLines = original.split('\n')
-          resultLines = result.split('\n')
-
-          i = 0
-
-          # TODO: use sourcemaps for this
-          _.findLast resultLines, (newline, index) ->
-            orgline = originalLines[originalLines.length - 1 - i]
-            i++
-
-            if newline != orgline
-              lastChangedLine = index
-              return true
+          lastChangedLine = range[1][0] - 1 + (newLineCount - originalLineCount)
 
           if lastChangedLine > firstChangedLine
             for row in [firstChangedLine...(lastChangedLine + 1)]
@@ -129,6 +120,8 @@ class AtomReact
 
           # return back
           editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
+        catch err
+          console.log(err)
 
 
   processEditor: (editor) ->

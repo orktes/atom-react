@@ -2,26 +2,53 @@
 layout: default
 ---
 
-
-WIP <a href="https://atom.io/packages/react">atom.io/packages/react</a>
-
-<ul>
-{% for feature in site.features %}
-  <li>
-    <a href="#{{feature.name | slugify}}">{{feature.name}}</a>
-  </li>
-{% endfor %}
-</ul>
-
-{% for feature in site.features %}
-<div class="row">
-  <a name="{{feature.name | slugify}}"></a>
-  <div class="col-md-6">
-    <h3>{{feature.name}}</h3>
-    {{feature.output}}
-  </div>
-  <div class="col-md-6">
-    {% include {{feature.type}}.html data=feature.data %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Atom React Plugin</h1>
+    <p>React support for the <a href="https://atom.io">Atom</a> Editor.</p>
+    <p>
+      {% highlight bash %}
+      $ apm install react
+      {% endhighlight %}
+    </p>
   </div>
 </div>
-{% endfor %}
+
+<div class="container">
+  <a name="features"></a>
+  <h1 class="page-header">Features</h1>
+  <ul>
+    {% for feature in site.features %}
+    <li>
+      <a href="#{{feature.name | slugify}}">{{feature.name}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% for feature in site.features %}
+  <a name="{{feature.name | slugify}}"></a>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>{{feature.name}}</h3>
+      {{feature.output}}
+    </div>
+    <div class="col-md-6" style="margin-top: 25px;">
+      {% include {{feature.type}}.html data=feature.data %}
+    </div>
+  </div>
+  {% endfor %}
+
+
+  <a name="contributors"></a>
+  <h1 class="page-header">Contributors</h1>
+
+  {% for contributor in site.github.contributors %}
+  <div class="contributors">
+    <div class="contributor">
+      <img class="avatar" src="{{contributor.avatar_url}}" />
+    </div>
+  </div>
+  {% endfor %}
+
+
+</div>

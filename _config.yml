@@ -1,2 +1,4 @@
 collections:
 - features
+repository: orktes/atom-react
+gems: ['jekyll-github-metadata']

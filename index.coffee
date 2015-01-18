@@ -1,12 +1,9 @@
 path   = require 'path'
-docblock = require 'jstransform/src/docblock'
-jsxformat = require 'jsxformat'
-_ = require 'lodash'
-
 {Subscriber} = require 'emissary'
 
 # use same docblock parser as jsxtransformer does
 isJSX = (text) ->
+  docblock = require 'jstransform/src/docblock'
   doc = docblock.parse text;
   for b in doc
     return true if b[0] == 'jsx'
@@ -80,6 +77,9 @@ class AtomReact
       editor.setGrammar jsxGrammar if jsxGrammar
 
   onReformat: ->
+    jsxformat = require 'jsxformat'
+    _ = require 'lodash'
+
     editor = atom.workspace.getActiveEditor()
     selections = editor.getSelections()
 

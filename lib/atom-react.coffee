@@ -81,7 +81,7 @@ class AtomReact
 
   onHTMLToJSX: ->
     jsxformat = require 'jsxformat'
-    HTMLtoJSX = require './lib/htmltojsx'
+    HTMLtoJSX = require './htmltojsx'
     converter = new HTMLtoJSX(createClass: false)
 
     editor = atom.workspace.getActiveEditor()

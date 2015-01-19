@@ -68,8 +68,11 @@ class AtomReact
       return true if b[0] == 'jsx'
     false
 
+  isReactEnabledForEditor: (editor) ->
+    return editor? && editor.getGrammar().scopeName == "source.js.jsx"
+
   autoSetGrammar: (editor) ->
-    return if editor.getGrammar().scopeName == "source.js.jsx"
+    return if @isReactEnabledForEditor editor
 
     path = require 'path'
 
@@ -86,7 +89,7 @@ class AtomReact
 
     editor = atom.workspace.getActiveEditor()
 
-    return if not editor?
+    return if not @isReactEnabledForEditor editor
 
     selections = editor.getSelections()
 
@@ -108,7 +111,7 @@ class AtomReact
 
     editor = atom.workspace.getActiveEditor()
 
-    return if not editor?
+    return if not @isReactEnabledForEditor editor
 
     selections = editor.getSelections()
     editor.transact =>

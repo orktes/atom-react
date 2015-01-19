@@ -38,6 +38,24 @@ layout: default
   </div>
   {% endfor %}
 
+  <a name="snippets"></a>
+  <h1 class="page-header">Snippets</h1>
+
+  <table class="table">
+  {% for snippet in site.data.snippets['.source.js'] %}
+  <tr>
+    <td>
+      {{snippet[1].prefix}}
+    </td>
+    <td>
+      {% highlight js %}
+        {{snippet[1].body}}
+      {% endhighlight %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
 
   <a name="contributors"></a>
   <h1 class="page-header">Contributors</h1>

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "emissary": "1.x",
-    "jsxformat": "~0.0.5",
+    "jsxformat": "~0.0.6",
     "jstransform": "~6.1.0",
     "lodash": "~2.4.1"
   }

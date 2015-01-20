@@ -113,6 +113,8 @@ class AtomReact
 
     return if not @isReactEnabledForEditor editor
 
+    console.log("Here");
+
     selections = editor.getSelections()
     editor.transact =>
       for selection in selections
@@ -165,8 +167,8 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    atom.commands.add 'atom-workspace', 'react:reformat-JSX', @onReformat
-    atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', @onHTMLToJSX
+    atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
+    atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
 
     atom.workspace.observeTextEditors @processEditor.bind(this)
 

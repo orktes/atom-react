@@ -113,8 +113,6 @@ class AtomReact
 
     return if not @isReactEnabledForEditor editor
 
-    console.log("Here");
-
     selections = editor.getSelections()
     editor.transact =>
       for selection in selections

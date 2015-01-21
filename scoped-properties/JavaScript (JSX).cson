@@ -13,7 +13,7 @@
     | ^ \\s* (for|while) \\s* \\( (?!.*?;\\s*$)
     | ^ \\s* do \\s* $'
     'decreaseIndentPattern': '(?x)
-    ^\\s*(</)
+    ^\\s*(</[-_\\.A-Za-z0-9]+)
     | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'
 
 '.source.js.jsx .tag:not(.entity.other.attribute-name, .entity.name.tag, .punctuation.definition.tag.begin, .invalid.illegal.incomplete .string, .curly)':

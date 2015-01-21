@@ -83,7 +83,7 @@ class AtomReact
     # Check if file extension is .jsx or the file has the old JSX notation
     extName = path.extname(editor.getPath())
     if extName is ".jsx" or (extName is ".js" and @isJSX(editor.getText()))
-      jsxGrammar = atom.syntax.grammarsByScopeName["source.js.jsx"]
+      jsxGrammar = atom.grammars.grammarsByScopeName["source.js.jsx"]
       editor.setGrammar jsxGrammar if jsxGrammar
 
   onHTMLToJSX: ->

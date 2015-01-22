@@ -20,3 +20,10 @@ attr3 />
 <span />
 </div></div>
 </div>
+
+function () {
+return <div
+attr1=""
+attr2="" />;
+// Foo
+}

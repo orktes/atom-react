@@ -1,7 +1,12 @@
-describe "JSX grammar", ->
+{TextEditor} = require 'atom'
+
+describe "React grammar", ->
   grammar = null
 
   beforeEach ->
+    waitsForPromise ->
+      atom.packages.activatePackage("language-javascript")
+
     waitsForPromise ->
       atom.packages.activatePackage("react")
 
@@ -30,7 +35,7 @@ describe "JSX grammar", ->
   describe "keywords", ->
     it "tokenizes with as a keyword", ->
       {tokens} = grammar.tokenizeLine('with')
-      expect(tokens[0]).toEqual value: 'with', scopes: ['source.js.jsx', 'keyword.operator.js']
+      expect(tokens[0]).toEqual value: 'with', scopes: ['source.js.jsx', 'keyword.control.js']
 
   describe "regular expressions", ->
     it "tokenizes regular expressions", ->
@@ -86,7 +91,7 @@ describe "JSX grammar", ->
   describe "operators", ->
     it "tokenizes void correctly", ->
       {tokens} = grammar.tokenizeLine('void')
-      expect(tokens[0]).toEqual value: 'void', scopes: ['source.js.jsx', 'storage.type.js']
+      expect(tokens[0]).toEqual value: 'void', scopes: ['source.js.jsx', 'keyword.operator.js']
 
     it "tokenizes the / arithmetic operator when separated by newlines", ->
       lines = grammar.tokenizeLines """
@@ -116,11 +121,11 @@ describe "JSX grammar", ->
   it "tokenizes comments in function params", ->
     {tokens} = grammar.tokenizeLine('foo: function (/**Bar*/bar){')
 
-    expect(tokens[4]).toEqual value: '(', scopes: ['source.js.jsx', 'meta.scope.function.js', 'meta.expression.body.class', 'punctuation.definition.parameters.begin.js']
-    expect(tokens[5]).toEqual value: '/**', scopes: ['source.js.jsx', 'meta.scope.function.js', 'meta.expression.body.class', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
-    expect(tokens[6]).toEqual value: 'Bar', scopes: ['source.js.jsx', 'meta.scope.function.js', 'meta.expression.body.class', 'comment.block.documentation.js']
-    expect(tokens[7]).toEqual value: '*/', scopes: ['source.js.jsx', 'meta.scope.function.js', 'meta.expression.body.class', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
-    expect(tokens[8]).toEqual value: 'bar', scopes: ['source.js.jsx', 'meta.scope.function.js', 'meta.expression.body.class', 'variable.parameter.function.js']
+    expect(tokens[4]).toEqual value: '(', scopes: ['source.js.jsx', 'meta.function.json.js', 'punctuation.definition.parameters.begin.js']
+    expect(tokens[5]).toEqual value: '/**', scopes: ['source.js.jsx', 'meta.function.json.js', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
+    expect(tokens[6]).toEqual value: 'Bar', scopes: ['source.js.jsx', 'meta.function.json.js', 'comment.block.documentation.js']
+    expect(tokens[7]).toEqual value: '*/', scopes: ['source.js.jsx', 'meta.function.json.js', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
+    expect(tokens[8]).toEqual value: 'bar', scopes: ['source.js.jsx', 'meta.function.json.js', 'variable.parameter.function.js']
 
   it "tokenizes /* */ comments", ->
     {tokens} = grammar.tokenizeLine('/**/')
@@ -145,3 +150,52 @@ describe "JSX grammar", ->
     expect(tokens[0]).toEqual value: '/**', scopes: ['source.js.jsx', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
     expect(tokens[1]).toEqual value: ' foo ', scopes: ['source.js.jsx', 'comment.block.documentation.js']
     expect(tokens[2]).toEqual value: '*/', scopes: ['source.js.jsx', 'comment.block.documentation.js', 'punctuation.definition.comment.js']
+
+  describe "indentation", ->
+    editor = null
+
+    beforeEach ->
+      editor = new TextEditor({})
+      editor.setGrammar(grammar)
+
+    expectPreservedIndentation = (text) ->
+      editor.setText(text)
+      editor.autoIndentBufferRows(0, text.split("\n").length - 1)
+      expect(editor.getText()).toBe text
+
+    it "indents allman-style curly braces", ->
+      expectPreservedIndentation """
+        if (true)
+        {
+          for (;;)
+          {
+            while (true)
+            {
+              x();
+            }
+          }
+        }
+
+        else
+        {
+          do
+          {
+            y();
+          } while (true);
+        }
+      """
+
+    it "indents non-allman-style curly braces", ->
+      expectPreservedIndentation """
+        if (true) {
+          for (;;) {
+            while (true) {
+              x();
+            }
+          }
+        } else {
+          do {
+            y();
+          } while (true);
+        }
+      """

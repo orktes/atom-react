@@ -3,12 +3,14 @@
   "version": "0.8.8",
   "description": "React.js (JSX) language support and snippets",
   "repository": "https://github.com/orktes/atom-react",
-  "license": "Apache 2.0",
+  "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.150.0"
   },
   "dependencies": {
     "emissary": "1.x",
-    "jstransform": "~6.1.0"
+    "jsxformat": "~0.0.6",
+    "jstransform": "~6.1.0",
+    "lodash": "~2.4.1"
   }
 }

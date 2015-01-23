@@ -42,15 +42,27 @@ layout: default
   <h1 class="page-header">Snippets</h1>
 
   <table class="table">
+  <tr>
+    <th>
+      Snippet
+    </th>
+    <th>
+      Prefix
+    </th>
+    <th>
+      Body
+    </th>
+  </tr>
   {% for snippet in site.data.snippets['.source.js'] %}
   <tr>
+    <td>
+      {{snippet[0]}}
+    </td>
     <td>
       {{snippet[1].prefix}}
     </td>
     <td>
-      {% highlight js %}
-        {{snippet[1].body}}
-      {% endhighlight %}
+      {{snippet[1].html}}
     </td>
   </tr>
   {% endfor %}

@@ -1,0 +1,8 @@
+{
+  "name": "react",
+  "description": "React.js (JSX) language support and snippets",
+  "repository": "https://github.com/orktes/atom-react",
+  "license": "MIT",
+  "dependencies": {
+  }
+}

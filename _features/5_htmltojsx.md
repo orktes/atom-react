@@ -9,4 +9,4 @@ data:
   src: assets/HTMLtoJSX.m4v
 ---
 
-HTML to JSX conversion helps you to port your old HTML markup to JSX. This feature also comes handy when your copy & pasting code from for example the Bootstrap documentation. Feature can be used from the command palette, edit menu or from the context menu.
+HTML to JSX conversion helps you to port your old HTML markup to JSX. This feature also comes handy when you copy & pasting code from for example the Bootstrap documentation. Feature can be used from the command palette, edit menu or from the context menu.

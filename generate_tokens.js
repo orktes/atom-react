@@ -25,7 +25,7 @@ var i = 0;
 for (var key in snippets) {
   var snippet = snippets[key];
   snippet.html = highlighter.highlightSync({
-    fileContents: snippet.body,
+    fileContents: snippet.body.replace(/\t/g, '  '),
     scopeName: 'source.js.jsx'
   });
 }

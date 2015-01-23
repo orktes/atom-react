@@ -1,1 +1,13 @@
-<img class="preview" height="{{include.data.height}}" width="{{include.data.width}}" src="{{include.data.src}}" />
+<style>
+  .thumbnail-{{include.name | slugify}} {
+    height: {{include.data.height}}px;
+    width: {{include.data.width}}px;
+  }
+  @media (max-width: 768px) {
+    .thumbnail-{{include.name | slugify}} {
+      height: {{include.data.small_height}}px !important;
+      width: {{include.data.small_width}}px !important;
+    }
+  }
+</style>
+<img class="preview thumbnail-{{include.name | slugify}}" src="{{include.data.src}}" />

@@ -3,6 +3,8 @@
   "description": "React.js (JSX) language support and snippets",
   "repository": "https://github.com/orktes/atom-react",
   "license": "MIT",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "less_watch": "^1.7.4"
   }
 }

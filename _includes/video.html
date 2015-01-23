@@ -1,1 +1,13 @@
-<video controls data-setup='{}' class="video-js vjs-default-skin" height="{{include.data.height}}" width="{{include.data.width}}" src="{{include.data.src}}"></video>
+<style>
+  .video-{{include.name | slugify}} {
+    height: {{include.data.height}}px !important;
+    width: {{include.data.width}}px !important;
+  }
+  @media (max-width: 768px) {
+    .video-{{include.name | slugify}} {
+      height: {{include.data.small_height}}px !important;
+      width: {{include.data.small_width}}px !important;
+    }
+  }
+</style>
+<video controls data-setup='{}' class="video-js vjs-sublime-skin video-{{include.name | slugify}}" src="{{include.data.src}}"></video>

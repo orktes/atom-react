@@ -1,0 +1,232 @@
+@bg-header: #002B35;
+
+body {
+  background-color: #fff;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  h1, h2, h3, h4, h5 {
+    color: #3c4550;
+    font-weight: 300;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  p {
+    color: #768089;
+  }
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.navbar-inverse {
+  background-color: @bg-header;
+  border-color: @bg-header;
+  margin-bottom: 0;
+  .navbar-brand {
+    font-weight: 600;
+    color: #fff;
+  }
+  .navbar-toggle {
+    border-color: rgba(255,255,255,0.1);
+  }
+  .navbar-collapse.collapse {
+    border: none;
+  }
+}
+
+.jumbotron {
+  background-color: @bg-header;
+  padding: 100px 0;
+  text-align: center;
+  margin: 0;
+  h1 {
+    color: #FFF;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 50px;
+  }
+  p {
+    color: #a5a7a9;
+    font-weight: 400;
+    font-style: italic;
+  }
+  .highlight {
+    max-width: 500px;
+    margin: 70px auto 0 auto;
+    pre {
+      background-color: lighten(@bg-header, 5%);
+      border-color: lighten(@bg-header, 10%);
+    }
+    pre code {
+      color: #DADADA;
+      .nv {
+        color: #777272;
+      }
+    }
+  }
+}
+
+.jumbotron-footer {
+  text-align: center;
+  padding: 20px 0;
+  background-color: fade(@bg-header, 6%);
+  p {
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+  }
+  .glyphicon {
+    margin-right: 10px;
+    top: 2px;
+    color: rgba(0,0,0,0.4);
+  }
+}
+
+.features-title, .snippets-title {
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 70px 0 30px 0;
+}
+
+.snippets-title {
+  margin: 40px 0 60px 0;
+}
+
+.row-feature-preview {
+  margin: 0 auto;
+  padding: 10px 75px 30px 75px;
+  max-width: 900px;
+  .col-feature-preview {
+    //border-left: 4px solid rgba(0,0,0,0.1);
+    text-align: center;
+    padding: 5px 0 5px 15px;
+    margin: 15px 0;
+  }
+  a {
+    font-weight: 700;
+  }
+}
+
+.container-feature {
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  &:first-child {
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+  .row-feature {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 75px 0;
+    video, .preview {
+      border-radius: 4px;
+      -webkit-box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+      -moz-box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+      box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+    .video-js {
+      background-color: transparent
+    }
+  }
+  @media (min-width: 769px) {
+    &:nth-child(even) {
+      .col-feature, .col-feature-video {
+        float: right;
+      }
+      .col-feature {
+        padding-top: 50px;
+        padding-right: 50px;
+        width: ~"calc(100% - 445px)";
+      }
+      .col-feature-video {
+        width: 445px;
+      }
+    }
+    &:nth-child(odd) {
+      .col-feature {
+        padding-top: 50px;
+        padding-left: 50px;
+        width: ~"calc(100% - 445px)";
+      }
+      .col-feature-video {
+        width: 445px;
+      }
+    }
+  }
+  &:last-child {
+    border-bottom: none;
+  }
+  @media (max-width: 768px) {
+    .col-feature-video {
+      text-align: center;
+      padding: 0;
+      margin-left: -5px;
+      margin-right: -5px;
+      .video-js {
+        display: inline-block;
+      }
+    }
+    .col-feature {
+      text-align: center;
+    }
+    .row-feature {
+      padding: 30px 0;
+    }
+  }
+}
+
+
+.container-snippets {
+  padding: 40px 0;
+  border-top: 1px solid fade(@bg-header, 14%);
+  background-color: fade(@bg-header, 10%);
+  .table {
+    td, th {
+      padding: 15px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    tr {
+      display: block;
+    }
+    td {
+      display: block;
+      border-top: none !important;
+    }
+  }
+}
+
+footer {
+  background-color: @bg-header;
+  color: #a5a7a9;
+  padding: 30px 0;
+  border-bottom: 5px solid darken(@bg-header, 5%);
+  .design, .author {
+    float: right;
+    display: block;
+    margin-left: 20px;
+    text-align: right;
+  }
+  @media (max-width: 768px) {
+    .design, .author {
+      text-align: left;
+      float: left;
+      margin-left: 0;
+      margin-right: 20px;
+    }
+  }
+  .avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+}
+
+
+
+

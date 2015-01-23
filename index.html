@@ -11,74 +11,99 @@ layout: default
       $ apm install react
       {% endhighlight %}
     </p>
+    <p class="jumbtron-links">
+      <a href="https://github.com/orktes/atom-react">Github</a>
+      -
+      <a href="https://atom.io/packages/react">Atom Package</a>
+  </div>
+</div>
+
+<div class="jumbotron-footer">
+  <div class="container">
+    <p><span class="glyphicon glyphicon-tag"></span>Current version: <strong>1.4.6</strong></p>
   </div>
 </div>
 
 <div class="container">
   <a name="features"></a>
-  <h1 class="page-header">Features</h1>
-  <ul>
+  <h1 class="features-title">Features</h1>
+  <div class="row row-feature-preview">
     {% for feature in site.features %}
-    <li>
-      <a href="#{{feature.name | slugify}}">{{feature.name}}</a>
-    </li>
+      <div class="col-feature-preview col-xs-12 col-sm-6 col-md-4">
+        <a href="#{{feature.name | slugify}}">{{feature.name}}</a>
+      </div>
     {% endfor %}
-  </ul>
-
-  {% for feature in site.features %}
-  <a name="{{feature.name | slugify}}"></a>
-  <div class="row">
-    <div class="col-md-6">
-      <h3>{{feature.name}}</h3>
-      {{feature.output}}
-    </div>
-    <div class="col-md-6" style="margin-top: 25px;">
-      {% include {{feature.type}}.html data=feature.data %}
-    </div>
   </div>
-  {% endfor %}
-
-  <a name="snippets-list"></a>
-  <h1 class="page-header">Snippets</h1>
-
-  <table class="table">
-  <tr>
-    <th>
-      Snippet
-    </th>
-    <th>
-      Prefix
-    </th>
-    <th>
-      Body
-    </th>
-  </tr>
-  {% for snippet in site.data.snippets['.source.js'] %}
-  <tr>
-    <td>
-      {{snippet[0]}}
-    </td>
-    <td>
-      {{snippet[1].prefix}}
-    </td>
-    <td>
-      {{snippet[1].html}}
-    </td>
-  </tr>
-  {% endfor %}
-</table>
-
-
-  <a name="contributors"></a>
-  <h1 class="page-header">Contributors</h1>
-
-  {% for contributor in site.github.contributors %}
-  <div class="contributors">
-    <div class="contributor">
-      <img class="avatar" src="{{contributor.avatar_url}}" />
-    </div>
-  </div>
-  {% endfor %}
-
-
 </div>
+
+<div class="features">
+  {% for feature in site.features %}
+  <div class="container-feature">
+    <div class="container">
+      <div class="row row-feature">
+        <a name="{{feature.name | slugify}}"></a>
+        <div class="col-feature-video col-sm-6">
+          {% include {{feature.type}}.html data=feature.data name=feature.name %}
+        </div>
+        <div class="col-feature col-sm-6">
+          <h2>{{feature.name}}</h2>
+          {{feature.output}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="container-snippets">
+  <div class="container">
+    <a name="snippets-list"></a>
+    <h1 class="snippets-title">Snippets</h1>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <tr>
+          <th>
+            Snippet
+          </th>
+          <th>
+            Prefix
+          </th>
+          <th>
+            Body
+          </th>
+        </tr>
+        {% for snippet in site.data.snippets['.source.js'] %}
+        <tr>
+          <td>
+            {{snippet[0]}}
+          </td>
+          <td>
+            {{snippet[1].prefix}}
+          </td>
+          <td>
+            {{snippet[1].html}}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 text-align-left">
+        <p class="license">MIT License</p>
+      </div>
+      <div class="col-sm-6 text-align-right">
+        <p class="design">
+          Site design: <a href="https://github.com/ajniemin" target="_blank"><strong>ajniemin</strong></a>
+        </p>
+        <p class="author">
+          Plugin author: <a href="https://github.com/orktes" target="_blank"><strong>orktes</strong></a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

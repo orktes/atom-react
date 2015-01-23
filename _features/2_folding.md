@@ -1,5 +1,5 @@
 ---
-name: 'Code folding'
+name: 'Code Folding'
 type: video
 data:
   height: 391

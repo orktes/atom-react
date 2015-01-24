@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/orktes/atom-react.svg?branch=master)](https://travis-ci.org/orktes/atom-react)
+
 # Atom React.js support
 
 Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for more information.

@@ -10,4 +10,9 @@
     }
   }
 </style>
-<video controls class="video-js vjs-sublime-skin video-{{include.name | slugify}}" src="{{include.data.src}}"></video>
+<video id="video-{{include.name | slugify}}" controls class="video-js vjs-sublime-skin video-{{include.name | slugify}}" src="{{include.data.src}}"></video>
+<script>
+  videojs('video-{{include.name | slugify}}', {}, function() {
+    this.ga();
+  });
+</script>

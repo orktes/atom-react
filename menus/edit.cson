@@ -19,7 +19,7 @@
   }
 ]
 'context-menu':
-  'atom-workspace': [
+  'atom-text-editor': [
     {
       label: 'Reformat JSX'
       command: 'react:reformat-JSX'

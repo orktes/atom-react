@@ -6,6 +6,8 @@ class AtomReact
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
     self = this
     fn = editor.languageMode.autoDecreaseIndentForBufferRow
+    return if fn.jsxPatch
+
     editor.languageMode.autoDecreaseIndentForBufferRow = (bufferRow, options) ->
       return fn.call(editor.languageMode, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
 
@@ -35,6 +37,8 @@ class AtomReact
   patchEditorLangModeSuggestedIndentForBufferRow: (editor) ->
     self = this
     fn = editor.languageMode.suggestedIndentForBufferRow
+    return if fn.jsxPatch
+
     editor.languageMode.suggestedIndentForBufferRow = (bufferRow, options) ->
       indent = fn.call(editor.languageMode, bufferRow, options)
       return indent unless editor.getGrammar().scopeName == "source.js.jsx" and bufferRow > 1
@@ -62,8 +66,8 @@ class AtomReact
       return Math.max(indent, 0)
 
   patchEditorLangMode: (editor) ->
-    @patchEditorLangModeSuggestedIndentForBufferRow(editor)
-    @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)
+    @patchEditorLangModeSuggestedIndentForBufferRow(editor)?.jsxPatch = true
+    @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)?.jsxPatch = true
 
   isJSX: (text) ->
     docblock = require 'jstransform/src/docblock'

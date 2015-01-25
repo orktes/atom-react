@@ -60,7 +60,9 @@ class AtomReact
 
       return indent if not precedingLine?
 
-      indent += 1 if tagStartRegex.testSync(precedingLine) and complexAttributeRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
+      tagStartTest = tagStartRegex.testSync(precedingLine)
+
+      indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
       indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
 
       return Math.max(indent, 0)
@@ -171,7 +173,9 @@ class AtomReact
   activate: ->
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
-    decreaseIndentForNextLinePattern = '/>\\s*(,|;)?\\s*$'
+    decreaseIndentForNextLinePattern = '(?x)
+    />\\s*(,|;)?\\s*$
+    | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
     atom.config.set("react.jsxTagStartPattern", jsxTagStartPattern)
     atom.config.set("react.jsxComplexAttributePattern", jsxComplexAttributePattern)

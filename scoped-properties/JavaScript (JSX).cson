@@ -3,7 +3,7 @@
     'commentStart': '// '
     'foldEndPattern': '(^\\s*\\</|^\\s*\\}|^\\s*\\]|^\\s*\\|/>\\s*$)'
     'increaseIndentPattern': '(?x)
-    ((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))
+    ((^|=|return)\\s*(<[-_\\.A-Za-z0-9]+))
       | \\{ [^}"\']* $
       | \\( [^)"\']* $
       | case[\\s\\S]*: $

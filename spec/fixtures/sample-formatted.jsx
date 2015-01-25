@@ -15,7 +15,8 @@
       attr3 />
     <div />
   </div>
-
+  <div attr="1"
+    attr="2">Foo bar</div>
   <div><div>
     <span />
   </div></div>

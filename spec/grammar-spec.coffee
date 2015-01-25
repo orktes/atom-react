@@ -10,6 +10,10 @@ describe "React grammar", ->
     waitsForPromise ->
       atom.packages.activatePackage("react")
 
+    afterEach ->
+      atom.packages.deactivatePackages()
+      atom.packages.unloadPackages()
+      
     runs ->
       grammar = atom.grammars.grammarForScopeName("source.js.jsx")
 

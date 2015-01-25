@@ -163,6 +163,11 @@ class AtomReact
     @patchEditorLangMode(editor)
     @autoSetGrammar(editor)
 
+  deactivate: ->
+    @disposableReformat.dispose()
+    @disposableHTMLTOJSX.dispose()
+    @disposableProcessEditor.dispose()
+
   activate: ->
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
@@ -173,10 +178,9 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
-    atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
-
-    atom.workspace.observeTextEditors @processEditor.bind(this)
+    @disposableReformat = atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
+    @disposableHTMLTOJSX = atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
+    @disposableProcessEditor = atom.workspace.observeTextEditors @processEditor.bind(this)
 
 
 module.exports = AtomReact

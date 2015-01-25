@@ -65,7 +65,21 @@
   ga('create', 'UA-58900048-1', 'auto');
   ga('send', 'pageview');
 
-  
+  $.getJSON('https://api.github.com/repos/orktes/atom-react/tags', function (tags) {
+    var release, travisUrl;
+
+    for (var i = 0; i < tags.length; i++) {
+      release = tags[i];
+
+      if (release.name[0] === 'v') {
+        var travisUrl = "https://travis-ci.org/orktes/atom-react.svg?branch=" + release.name;
+        $('#travis').attr('src', travisUrl);
+        $('#version').html(release.name.substr(1));
+        $('#version-container').slideDown(200);
+        break;
+      }
+    }
+  });
 
   </script>
 </body>

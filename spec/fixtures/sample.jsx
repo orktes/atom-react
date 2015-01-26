@@ -46,3 +46,19 @@ test
 });
 }
 }
+
+try {
+  statements
+} catch (variable) {
+  statements
+} finally {
+  statements
+}
+
+foo = "{"
+
+if (foobar) {
+if (foobar === "}") {
+foobar();
+}
+}

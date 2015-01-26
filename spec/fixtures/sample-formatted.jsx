@@ -20,6 +20,10 @@
   <div><div>
     <span />
   </div></div>
+  <div />
+  {foo &&
+    <div />
+  }
 </div>
 
 function () {

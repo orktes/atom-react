@@ -46,6 +46,7 @@ class AtomReact
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
       decreaseNextLineIndentRegex = @getRegexForProperty(scopeDescriptor, 'react.decreaseIndentForNextLinePattern')
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
       tagStartRegex = @getRegexForProperty(scopeDescriptor, 'react.jsxTagStartPattern')
       complexAttributeRegex = @getRegexForProperty(scopeDescriptor, 'react.jsxComplexAttributePattern')
 
@@ -61,9 +62,10 @@ class AtomReact
       return indent if not precedingLine?
 
       tagStartTest = tagStartRegex.testSync(precedingLine)
+      decreaseIndentTest = decreaseIndentRegex.testSync(precedingLine)
 
       indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
-      indent -= 1 if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
+      indent -= 1 if precedingLine and not decreaseIndentTest and decreaseNextLineIndentRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
 
       return Math.max(indent, 0)
 

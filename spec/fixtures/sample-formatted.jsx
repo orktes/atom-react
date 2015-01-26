@@ -24,6 +24,12 @@
   {foo &&
     <div />
   }
+  {foo.get('foo').foobar &&
+    <div
+      attr="1">
+      {foo}
+    </div>
+  }
 </div>
 
 function () {
@@ -31,4 +37,12 @@ function () {
     attr1=""
     attr2="" />;
   // Foo
+}
+
+function () {
+  if (foo && bar) {
+    func(function (test) {
+      test
+    });
+  }
 }

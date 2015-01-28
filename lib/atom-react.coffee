@@ -54,12 +54,12 @@ class AtomReact
 
       return indent if precedingRow < 0
 
-      if @editor.isBufferRowCommented(bufferRow) and @editor.isBufferRowCommented(precedingRow)
-        return @editor.indentationForBufferRow(precedingRow)
-
       precedingLine = @buffer.lineForRow(precedingRow)
 
       return indent if not precedingLine?
+
+      if @editor.isBufferRowCommented(bufferRow) and @editor.isBufferRowCommented(precedingRow)
+        return @editor.indentationForBufferRow(precedingRow)
 
       tagStartTest = tagStartRegex.testSync(precedingLine)
       decreaseIndentTest = decreaseIndentRegex.testSync(precedingLine)

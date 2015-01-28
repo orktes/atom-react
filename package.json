@@ -1,6 +1,6 @@
 {
   "name": "react",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "React.js (JSX) language support, indentation, snippets, auto completion, reformatting",
   "repository": "https://github.com/orktes/atom-react",
   "homepage": "http://orktes.github.io/atom-react",

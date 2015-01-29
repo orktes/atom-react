@@ -74,10 +74,8 @@ class AtomReact
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)?.jsxPatch = true
 
   isJSX: (text) ->
-    docblock = require 'jstransform/src/docblock'
-    doc = docblock.parse text;
-    for b in doc
-      return true if b[0] == 'jsx'
+    # assume if react is required that the file is implicitly JSX
+    return true if (text.indexOf("require('react") != -1 || text.indexOf('require("react') != -1)
     false
 
   isReactEnabledForEditor: (editor) ->

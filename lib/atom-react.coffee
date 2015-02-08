@@ -3,6 +3,23 @@ contentCheckRegex = null
 
 class AtomReact
   Subscriber.includeInto(this)
+
+  config:
+    detectReactFilePattern:
+      type: 'string'
+      default: '/require\\([\'"]react[\'"]\\)/'
+    jsxTagStartPattern:
+      type: 'string'
+      default: '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+    jsxComplexAttributePattern:
+      type: 'string'
+      default: '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
+    decreaseIndentForNextLinePattern:
+      type: 'string'
+      default: '(?x)
+      />\\s*(,|;)?\\s*$
+      | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+
   constructor: ->
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
     self = this
@@ -75,7 +92,9 @@ class AtomReact
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)?.jsxPatch = true
 
   isReact: (text) ->
-    contentCheckRegex ?= /require\(['"]react['"]\)/
+    if not contentCheckRegex?
+      match = atom.config.get('react.detectReactFilePattern').match(new RegExp('^/(.*?)/([gimy]*)$'));
+      contentCheckRegex = new RegExp(match[1], match[2])
     return text.match(contentCheckRegex)?
 
   isReactEnabledForEditor: (editor) ->
@@ -169,19 +188,14 @@ class AtomReact
     @disposableReformat.dispose()
     @disposableHTMLTOJSX.dispose()
     @disposableProcessEditor.dispose()
+    @disposableConfigListener.dispose()
 
   activate: ->
-    jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
-    jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
-    decreaseIndentForNextLinePattern = '(?x)
-    />\\s*(,|;)?\\s*$
-    | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
-
-    atom.config.set("react.jsxTagStartPattern", jsxTagStartPattern)
-    atom.config.set("react.jsxComplexAttributePattern", jsxComplexAttributePattern)
-    atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
+    @disposableConfigListener = atom.config.observe 'react.detectReactFilePattern', (newValue) ->
+      contentCheckRegex = null
+
     @disposableReformat = atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
     @disposableHTMLTOJSX = atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
     @disposableProcessEditor = atom.workspace.observeTextEditors @processEditor.bind(this)

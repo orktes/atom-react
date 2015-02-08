@@ -93,7 +93,7 @@ class AtomReact
 
   isReact: (text) ->
     if not contentCheckRegex?
-      match = atom.config.get('react.detectReactFilePattern').match(new RegExp('^/(.*?)/([gimy]*)$'));
+      match = (atom.config.get('react.detectReactFilePattern') || '/require\\([\'"]react[\'"]\\)/').match(new RegExp('^/(.*?)/([gimy]*)$'));
       contentCheckRegex = new RegExp(match[1], match[2])
     return text.match(contentCheckRegex)?
 
@@ -191,7 +191,7 @@ class AtomReact
     @disposableConfigListener.dispose()
 
   activate: ->
-    
+
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
     decreaseIndentForNextLinePattern = '(?x)

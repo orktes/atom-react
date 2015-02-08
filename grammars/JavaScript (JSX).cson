@@ -2,7 +2,6 @@
 'scopeName': 'source.js.jsx'
 'fileTypes': [
   'htc'
-  'js'
   'jsx'
 ]
 'patterns': [

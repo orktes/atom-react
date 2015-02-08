@@ -191,6 +191,16 @@ class AtomReact
     @disposableConfigListener.dispose()
 
   activate: ->
+    
+    jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+    jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
+    decreaseIndentForNextLinePattern = '(?x)
+    />\\s*(,|;)?\\s*$
+    | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+
+    atom.config.set("react.jsxTagStartPattern", jsxTagStartPattern)
+    atom.config.set("react.jsxComplexAttributePattern", jsxComplexAttributePattern)
+    atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
     @disposableConfigListener = atom.config.observe 'react.detectReactFilePattern', (newValue) ->

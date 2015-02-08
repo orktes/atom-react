@@ -1,4 +1,5 @@
 {Subscriber} = require 'emissary'
+contentCheckRegex = null
 
 class AtomReact
   Subscriber.includeInto(this)
@@ -73,12 +74,9 @@ class AtomReact
     @patchEditorLangModeSuggestedIndentForBufferRow(editor)?.jsxPatch = true
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)?.jsxPatch = true
 
-  isJSX: (text) ->
-    docblock = require 'jstransform/src/docblock'
-    doc = docblock.parse text;
-    for b in doc
-      return true if b[0] == 'jsx'
-    false
+  isReact: (text) ->
+    contentCheckRegex ?= /require\(['"]react['"]\)/
+    return text.match(contentCheckRegex)?
 
   isReactEnabledForEditor: (editor) ->
     return editor? && editor.getGrammar().scopeName == "source.js.jsx"
@@ -88,9 +86,9 @@ class AtomReact
 
     path = require 'path'
 
-    # Check if file extension is .jsx or the file has the old JSX notation
+    # Check if file extension is .jsx or the file has require React
     extName = path.extname(editor.getPath())
-    if extName is ".jsx" or (extName is ".js" and @isJSX(editor.getText()))
+    if extName is ".jsx" or (extName is ".js" and @isReact(editor.getText()))
       jsxGrammar = atom.grammars.grammarsByScopeName["source.js.jsx"]
       editor.setGrammar jsxGrammar if jsxGrammar
 

@@ -1,5 +1,6 @@
 describe "React tests", ->
   sampleCorrectFile = require.resolve './fixtures/sample-correct.js'
+  sampleCorrectNativeFile = require.resolve './fixtures/sample-correct-native.js'
   sampleInvalidFile = require.resolve './fixtures/sample-invalid.js'
 
   beforeEach ->
@@ -17,6 +18,12 @@ describe "React tests", ->
     it "should select source.js.jsx if file has require('react')", ->
       waitsForPromise ->
         atom.workspace.open(sampleCorrectFile, autoIndent: false).then (editor) ->
+          expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
+          editor.destroy()
+
+    it "should select source.js.jsx if file has require('react-native')", ->
+      waitsForPromise ->
+        atom.workspace.open(sampleCorrectNativeFile, autoIndent: false).then (editor) ->
           expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
           editor.destroy()
 

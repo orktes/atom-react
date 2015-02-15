@@ -93,7 +93,7 @@ class AtomReact
 
   isReact: (text) ->
     if not contentCheckRegex?
-      match = (atom.config.get('react.detectReactFilePattern') || '/require\\([\'"]react[\'"]\\)/').match(new RegExp('^/(.*?)/([gimy]*)$'));
+      match = (atom.config.get('react.detectReactFilePattern') || '/require\\([\'"]react(?:-native)?[\'"]\\)/').match(new RegExp('^/(.*?)/([gimy]*)$'));
       contentCheckRegex = new RegExp(match[1], match[2])
     return text.match(contentCheckRegex)?
 
@@ -105,7 +105,7 @@ class AtomReact
 
     path = require 'path'
 
-    # Check if file extension is .jsx or the file has require React
+    # Check if file extension is .jsx or the file requires React
     extName = path.extname(editor.getPath())
     if extName is ".jsx" or (extName is ".js" and @isReact(editor.getText()))
       jsxGrammar = atom.grammars.grammarsByScopeName["source.js.jsx"]

@@ -7,7 +7,7 @@ class AtomReact
   config:
     detectReactFilePattern:
       type: 'string'
-      default: '/require\\([\'"]react[\'"]\\)/'
+      default: '/require\\([\'"]react(?:-native)?[\'"]\\)/'
     jsxTagStartPattern:
       type: 'string'
       default: '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'

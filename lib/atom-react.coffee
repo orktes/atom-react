@@ -1,5 +1,6 @@
 {Subscriber} = require 'emissary'
 contentCheckRegex = null
+defaultDetectReactFilePattern = '/((require\\([\'"]react(?:-native)?[\'"]\\)))|(import\\s+\\w+\\s+from\\s+[\'"]react(?:-native)?[\'"])/'
 
 class AtomReact
   Subscriber.includeInto(this)
@@ -7,7 +8,7 @@ class AtomReact
   config:
     detectReactFilePattern:
       type: 'string'
-      default: '/require\\([\'"]react(?:-native)?[\'"]\\)/'
+      default: defaultDetectReactFilePattern
     jsxTagStartPattern:
       type: 'string'
       default: '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
@@ -93,7 +94,7 @@ class AtomReact
 
   isReact: (text) ->
     if not contentCheckRegex?
-      match = (atom.config.get('react.detectReactFilePattern') || '/require\\([\'"]react(?:-native)?[\'"]\\)/').match(new RegExp('^/(.*?)/([gimy]*)$'));
+      match = (atom.config.get('react.detectReactFilePattern') || defaultDetectReactFilePattern).match(new RegExp('^/(.*?)/([gimy]*)$'));
       contentCheckRegex = new RegExp(match[1], match[2])
     return text.match(contentCheckRegex)?
 

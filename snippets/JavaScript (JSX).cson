@@ -82,5 +82,5 @@
 
   "React: renderComponent(component, container, [callback])":
     prefix: "rrc"
-    body: "React.renderComponent(${1:<$2 />}, ${3:document.body}${4:, ${5:callback}});"
+    body: "React.render(${1:<$2 />}, ${3:document.body}${4:, ${5:callback}});"
 }

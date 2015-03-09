@@ -107,7 +107,7 @@
       }
     ]
   'jsx-tag-open':
-    'begin': '(<)([a-zA-Z0-9:$_]+)'
+    'begin': '(<)([a-zA-Z0-9\.:$_]+)'
     'end': '(/?>)'
     'name': 'tag.open.js'
     'endCaptures':

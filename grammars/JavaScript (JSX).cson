@@ -1,7 +1,8 @@
 'name': 'JavaScript (JSX)'
 'scopeName': 'source.js.jsx'
 'fileTypes': [
-  'jsx'
+  'jsx',
+  'react.js'
 ]
 'patterns': [
   {

@@ -1,10 +1,5 @@
 {
   ".source.js": {
-    "React: var cx = React.addons.classSet;": {
-      "prefix": "cs",
-      "body": "var cx = React.addons.classSet;",
-      "html": "<pre class=\"editor editor-colors\"><div class=\"line\"><span class=\"source js jsx\"><span class=\"storage modifier js\"><span>var</span></span><span>&nbsp;cx&nbsp;</span><span class=\"keyword operator js\"><span>=</span></span><span>&nbsp;React</span><span class=\"meta delimiter method period js\"><span>.</span></span><span>addons</span><span class=\"meta delimiter method period js\"><span>.</span></span><span>classSet</span><span class=\"punctuation terminator statement js\"><span>;</span></span></span></div></pre>"
-    },
     "React: componentDidMount: fn() { ... }": {
       "prefix": "cdm",
       "body": "componentDidMount: function() {\n\t${1}\n},",

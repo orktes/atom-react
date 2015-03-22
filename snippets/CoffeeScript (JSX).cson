@@ -1,9 +1,5 @@
 {
 ".source.coffee":
-  "React: cx = React.addons.classSet":
-    prefix: "cs"
-    body: "cx = React.addons.classSet"
-
   "React: componentDidMount: -> ...":
     prefix: "cdm"
     body: "componentDidMount: ->\n\t${1}\n"

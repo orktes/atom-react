@@ -1,9 +1,5 @@
 {
 ".source.js":
-  "React: var cx = React.addons.classSet;":
-    prefix: "cs"
-    body: "var cx = React.addons.classSet;"
-
   "React: componentDidMount: fn() { ... }":
     prefix: "cdm"
     body: "componentDidMount: function() {\n\t${1}\n},"

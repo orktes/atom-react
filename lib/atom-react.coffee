@@ -256,7 +256,6 @@ class AtomReact
           row--
           lastLine = lines[row]
 
-
         lastLineSpaces = lastLine.match(/^\s*/)
         lastLineSpaces = if lastLineSpaces? then lastLineSpaces[0] else ''
         editor.insertText('\n' + lastLineSpaces, {undo: 'skip'})

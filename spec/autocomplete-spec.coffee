@@ -33,3 +33,11 @@ describe "Tag autocomplete tests", ->
       editor.insertText('\n')
       expect(editor.buffer.getLines()[0]).toBe('<p>')
       expect(editor.buffer.getLines()[2]).toBe('</p>')
+
+      editor.setText("");
+      editor.insertText('<p\n  attr=""></p>')
+      editor.setCursorBufferPosition([1,10])
+      editor.insertText('\n')
+      expect(editor.buffer.getLines()[0]).toBe('<p')
+      expect(editor.buffer.getLines()[1]).toBe('  attr="">')
+      expect(editor.buffer.getLines()[3]).toBe('</p>')

@@ -249,6 +249,14 @@ class AtomReact
       fullLine = lines[row]
 
       if />$/.test(lastLine) and fullLine.search(autoCompleteTagCloseRegex) == 0
+        while lastLine?
+          match = lastLine.match autoCompleteTagStartRegex
+          if match? && match.length > 0
+            break
+          row--
+          lastLine = lines[row]
+
+
         lastLineSpaces = lastLine.match(/^\s*/)
         lastLineSpaces = if lastLineSpaces? then lastLineSpaces[0] else ''
         editor.insertText('\n' + lastLineSpaces, {undo: 'skip'})

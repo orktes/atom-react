@@ -15,6 +15,7 @@ Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for mor
 - Automatic indentation and folding
 - JSX Reformatting
 - HTML to JSX conversion
+- Autocomplete
 
 Contributions are greatly appreciated. Please fork this repository and open a pull request to add snippets, make grammar tweaks, etc.
 

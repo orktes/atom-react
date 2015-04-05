@@ -1,10 +1,9 @@
-{Subscriber} = require 'emissary'
 contentCheckRegex = null
 defaultDetectReactFilePattern = '/((require\\([\'"]react(?:-native)?[\'"]\\)))|(import\\s+\\w+\\s+from\\s+[\'"]react(?:-native)?[\'"])/'
+autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]+)/g
+autoCompleteTagCloseRegex = /(<\/)([^>]+)(>)/g
 
 class AtomReact
-  Subscriber.includeInto(this)
-
   config:
     detectReactFilePattern:
       type: 'string'
@@ -180,18 +179,95 @@ class AtomReact
             # return back
             editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
 
+  autoCloseTag: (eventObj, editor) ->
+    return if not @isReactEnabledForEditor editor
+
+    if eventObj?.newText? && />$/.test(eventObj?.newText)
+      token = editor.tokenForBufferPosition([eventObj.newRange.end.row, eventObj.newRange.end.column - 1]);
+      if not token? or token.scopes.indexOf('tag.open.js') == -1
+        return
+
+      lines = editor.buffer.getLines()
+      row = eventObj.newRange.end.row
+      line = lines[row]
+      line = line.substr 0, eventObj.newRange.end.column
+
+      # Tag is self closing
+      return if line.substr(line.length - 2, 1) is '/'
+
+      tagName = null
+
+      while line? and not tagName?
+        match = line.match autoCompleteTagStartRegex
+        if match? && match.length > 0
+          tagName = match.pop().substr(1)
+        row--
+        line = lines[row]
+
+      if tagName?
+        editor.insertText('</' + tagName + '>', {undo: 'skip'})
+        editor.setCursorBufferPosition(eventObj.newRange.end)
+
+    else if eventObj?.oldText is '>' and eventObj?.newText is ''
+      token = editor.tokenForBufferPosition([eventObj.newRange.end.row, eventObj.newRange.end.column - 1]);
+      if not token? or token.scopes.indexOf('tag.open.js') == -1
+        return
+
+      lines = editor.buffer.getLines()
+      row = eventObj.newRange.end.row
+      fullLine = lines[row]
+      line = fullLine.substr 0, eventObj.newRange.end.column
+
+      # Tag is self closing
+      return if line.substr(line.length - 1, 1) is '/'
+
+      tagName = null
+
+      while line? and not tagName?
+        match = line.match autoCompleteTagStartRegex
+        if match? && match.length > 0
+          tagName = match.pop().substr(1)
+        row--
+        line = lines[row]
+
+      if tagName?
+        rest = fullLine.substr(eventObj.newRange.end.column)
+        if rest.indexOf('</' + tagName + '>') == 0
+          # rest is closing tag
+          serializedEndPoint = [eventObj.newRange.end.row, eventObj.newRange.end.column];
+          editor.setTextInBufferRange(
+            [
+              serializedEndPoint,
+              [serializedEndPoint[0], serializedEndPoint[1] + tagName.length + 3]
+            ]
+          , '', {undo: 'skip'})
+
+    else if eventObj?.newText is '\n'
+      lines = editor.buffer.getLines()
+      row = eventObj.newRange.end.row
+      lastLine = lines[row - 1]
+      fullLine = lines[row]
+
+      if />$/.test(lastLine) and fullLine.search(autoCompleteTagCloseRegex) == 0
+        lastLineSpaces = lastLine.match(/^\s*/)
+        lastLineSpaces = if lastLineSpaces? then lastLineSpaces[0] else ''
+        editor.insertText('\n' + lastLineSpaces, {undo: 'skip'})
+        editor.setCursorBufferPosition(eventObj.newRange.end)
 
   processEditor: (editor) ->
     @patchEditorLangMode(editor)
     @autoSetGrammar(editor)
+    disposableBufferEvent = editor.buffer.onDidChange (e) =>
+                        @autoCloseTag e, editor
+
+    @disposables.push(disposableBufferEvent);
 
   deactivate: ->
-    @disposableReformat.dispose()
-    @disposableHTMLTOJSX.dispose()
-    @disposableProcessEditor.dispose()
-    @disposableConfigListener.dispose()
-
+    for disposable in @disposables
+      disposable.dispose()
   activate: ->
+
+    @disposables = [];
 
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
@@ -204,12 +280,17 @@ class AtomReact
     atom.config.set("react.decreaseIndentForNextLinePattern", decreaseIndentForNextLinePattern)
 
     # Bind events
-    @disposableConfigListener = atom.config.observe 'react.detectReactFilePattern', (newValue) ->
+    disposableConfigListener = atom.config.observe 'react.detectReactFilePattern', (newValue) ->
       contentCheckRegex = null
 
-    @disposableReformat = atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
-    @disposableHTMLTOJSX = atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
-    @disposableProcessEditor = atom.workspace.observeTextEditors @processEditor.bind(this)
+    disposableReformat = atom.commands.add 'atom-workspace', 'react:reformat-JSX', => @onReformat()
+    disposableHTMLTOJSX = atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
+    disposableProcessEditor = atom.workspace.observeTextEditors @processEditor.bind(this)
+
+    @disposables.push disposableConfigListener
+    @disposables.push disposableReformat
+    @disposables.push disposableHTMLTOJSX
+    @disposables.push disposableProcessEditor
 
 
 module.exports = AtomReact

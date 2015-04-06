@@ -18,11 +18,13 @@ describe "Tag autocomplete tests", ->
 
   describe "tag handling", ->
     it "should autocomplete tag", ->
-      editor.insertText('<p>')
+      editor.insertText('<p')
+      editor.insertText('>')
       expect(editor.getText()).toBe('<p></p>')
 
     it "should remove closing tag", ->
-      editor.insertText('<p>')
+      editor.insertText('<p')
+      editor.insertText('>')
       expect(editor.getText()).toBe('<p></p>')
       editor.backspace()
       expect(editor.getText()).toBe('<p')

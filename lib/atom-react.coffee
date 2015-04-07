@@ -209,13 +209,17 @@ class AtomReact
         editor.setCursorBufferPosition(eventObj.newRange.end)
 
     else if eventObj?.oldText is '>' and eventObj?.newText is ''
-      token = editor.tokenForBufferPosition([eventObj.newRange.end.row, eventObj.newRange.end.column - 1]);
-      if not token? or token.scopes.indexOf('tag.open.js') == -1
-        return
 
       lines = editor.buffer.getLines()
       row = eventObj.newRange.end.row
       fullLine = lines[row]
+      lastCharIndex = eventObj.newRange.end.column - 1;
+
+      return if not row? or lastCharIndex < 0 or lastCharIndex > fullLine.length - 1;
+
+      token = editor.tokenForBufferPosition([row, lastCharIndex]);
+      if not token? or token.scopes.indexOf('tag.open.js') == -1
+        return
       line = fullLine.substr 0, eventObj.newRange.end.column
 
       # Tag is self closing

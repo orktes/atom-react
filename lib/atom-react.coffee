@@ -132,7 +132,9 @@ class AtomReact
             jsxformat.setOptions({});
             jsxOutput = jsxformat.format(jsxOutput)
 
-          selection.insertText(jsxOutput, autoIndent: true);
+          selection.insertText(jsxOutput);
+          range = selection.getBufferRange();
+          editor.autoIndentBufferRows(range.start.row, range.end.row)
 
   onReformat: ->
     jsxformat = require 'jsxformat'
@@ -146,10 +148,19 @@ class AtomReact
     editor.transact =>
       for selection in selections
         try
-          bufStart = selection.getBufferRange().serialize()[0]
+          range = selection.getBufferRange();
+          serializedRange = range.serialize()
+          bufStart = serializedRange[0]
+          bufEnd = serializedRange[1]
+
           jsxformat.setOptions({});
           result = jsxformat.format(selection.getText())
-          selection.insertText(result, autoIndent: true);
+
+          originalLineCount = editor.getLineCount()
+          selection.insertText(result)
+          newLineCount = editor.getLineCount()
+
+          editor.autoIndentBufferRows(bufStart[0], bufEnd[0] + (newLineCount - originalLineCount))
           editor.setCursorBufferPosition(bufStart)
         catch err
           # Parsing/formatting the selection failed lets try to parse the whole file but format the selection only

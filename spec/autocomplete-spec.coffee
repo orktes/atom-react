@@ -22,6 +22,22 @@ describe "Tag autocomplete tests", ->
       editor.insertText('>')
       expect(editor.getText()).toBe('<p></p>')
 
+    it "should not autocomplete tag attributes", ->
+      editor.insertText('<p attr={ 1')
+      editor.insertText('>')
+      expect(editor.getText()).toBe('<p attr={ 1>')
+
+    it "should not autocomplete tag attributes with arrow functions", ->
+      editor.insertText('<p attr={number =')
+      editor.insertText('>')
+      expect(editor.getText()).toBe('<p attr={number =>')
+
+    it "should not autocomplete tag attributes when insterted between", ->
+      editor.insertText('<p attr={ 1 }')
+      editor.setCursorBufferPosition([0,11])
+      editor.insertText('>')
+      expect(editor.getText()).toBe('<p attr={ 1> }')
+
     it "should remove closing tag", ->
       editor.insertText('<p')
       editor.insertText('>')

@@ -182,9 +182,9 @@ class AtomReact
   autoCloseTag: (eventObj, editor) ->
     return if not @isReactEnabledForEditor editor
 
-    if eventObj?.newText is '>'
+    if eventObj?.newText is '>' and !eventObj.oldText
       token = editor.tokenForBufferPosition([eventObj.newRange.end.row, eventObj.newRange.end.column - 1]);
-      if not token? or token.scopes.indexOf('tag.open.js') == -1
+      if not token? or token.scopes.indexOf('tag.open.js') == -1 or token.scopes.indexOf('punctuation.definition.tag.end.js') == -1
         return
 
       lines = editor.buffer.getLines()

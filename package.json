@@ -12,7 +12,7 @@
     "test": "apm test"
   },
   "dependencies": {
-    "jsxformat": "~0.0.8",
+    "jsxformat": "~0.0.9",
     "lodash": "~2.4.1"
   }
 }

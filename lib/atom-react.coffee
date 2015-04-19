@@ -273,7 +273,7 @@ class AtomReact
 
         lastLineSpaces = lastLine.match(/^\s*/)
         lastLineSpaces = if lastLineSpaces? then lastLineSpaces[0] else ''
-        editor.insertText('\n' + lastLineSpaces, {undo: 'skip'})
+        editor.insertText('\n' + lastLineSpaces)
         editor.setCursorBufferPosition(eventObj.newRange.end)
 
   processEditor: (editor) ->

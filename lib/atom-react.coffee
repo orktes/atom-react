@@ -194,7 +194,11 @@ class AtomReact
     return if not @isReactEnabledForEditor editor
 
     if eventObj?.newText is '>' and !eventObj.oldText
-      token = editor.tokenForBufferPosition([eventObj.newRange.end.row, eventObj.newRange.end.column - 1]);
+      tokenizedLine = editor.displayBuffer?.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
+      return if not tokenizedLine?
+
+      token = tokenizedLine.tokenAtBufferColumn(eventObj.newRange.end.column - 1)
+
       if not token? or token.scopes.indexOf('tag.open.js') == -1 or token.scopes.indexOf('punctuation.definition.tag.end.js') == -1
         return
 
@@ -224,11 +228,11 @@ class AtomReact
       lines = editor.buffer.getLines()
       row = eventObj.newRange.end.row
       fullLine = lines[row]
-      lastCharIndex = eventObj.newRange.end.column - 1;
 
-      return if not row? or lastCharIndex < 0 or lastCharIndex > fullLine.length - 1;
+      tokenizedLine = editor.displayBuffer?.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
+      return if not tokenizedLine?
 
-      token = editor.tokenForBufferPosition([row, lastCharIndex]);
+      token = tokenizedLine.tokenAtBufferColumn(eventObj.newRange.end.column - 1)
       if not token? or token.scopes.indexOf('tag.open.js') == -1
         return
       line = fullLine.substr 0, eventObj.newRange.end.column

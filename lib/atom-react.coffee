@@ -5,22 +5,29 @@ defaultDetectReactFilePattern = '/((require\\([\'"]react(?:-native)?[\'"]\\)))|(
 autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]+)/g
 autoCompleteTagCloseRegex = /(<\/)([^>]+)(>)/g
 
+jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
+decreaseIndentForNextLinePattern = '(?x)
+/>\\s*(,|;)?\\s*$
+| ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+
 class AtomReact
   config:
+    disableAutoClose:
+      type: 'boolean'
+      default: false
     detectReactFilePattern:
       type: 'string'
       default: defaultDetectReactFilePattern
     jsxTagStartPattern:
       type: 'string'
-      default: '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
+      default: jsxTagStartPattern
     jsxComplexAttributePattern:
       type: 'string'
-      default: '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
+      default: jsxComplexAttributePattern
     decreaseIndentForNextLinePattern:
       type: 'string'
-      default: '(?x)
-      />\\s*(,|;)?\\s*$
-      | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+      default: decreaseIndentForNextLinePattern
 
   constructor: ->
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
@@ -193,6 +200,8 @@ class AtomReact
             editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
 
   autoCloseTag: (eventObj, editor) ->
+    return if atom.config.get('react.disableAutoClose')
+
     return if not @isReactEnabledForEditor(editor) or editor != atom.workspace.getActiveTextEditor()
 
     if eventObj?.newText is '>' and !eventObj.oldText

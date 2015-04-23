@@ -1,3 +1,5 @@
+{CompositeDisposable, Disposable} = require 'atom'
+
 contentCheckRegex = null
 defaultDetectReactFilePattern = '/((require\\([\'"]react(?:-native)?[\'"]\\)))|(import\\s+\\w+\\s+from\\s+[\'"]react(?:-native)?[\'"])/'
 autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]+)/g
@@ -191,7 +193,7 @@ class AtomReact
             editor.setCursorBufferPosition([firstChangedLine, range[0][1]])
 
   autoCloseTag: (eventObj, editor) ->
-    return if not @isReactEnabledForEditor editor
+    return if not @isReactEnabledForEditor(editor) or editor != atom.workspace.getActiveTextEditor()
 
     if eventObj?.newText is '>' and !eventObj.oldText
       tokenizedLine = editor.displayBuffer?.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
@@ -286,14 +288,15 @@ class AtomReact
     disposableBufferEvent = editor.buffer.onDidChange (e) =>
                         @autoCloseTag e, editor
 
-    @disposables.push(disposableBufferEvent);
+    @disposables.add editor.onDidDestroy => disposableBufferEvent.dispose()
+
+    @disposables.add(disposableBufferEvent);
 
   deactivate: ->
-    for disposable in @disposables
-      disposable.dispose()
+    @disposables.dispose()
   activate: ->
 
-    @disposables = [];
+    @disposables = new CompositeDisposable();
 
     jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
@@ -313,10 +316,10 @@ class AtomReact
     disposableHTMLTOJSX = atom.commands.add 'atom-workspace', 'react:HTML-to-JSX', => @onHTMLToJSX()
     disposableProcessEditor = atom.workspace.observeTextEditors @processEditor.bind(this)
 
-    @disposables.push disposableConfigListener
-    @disposables.push disposableReformat
-    @disposables.push disposableHTMLTOJSX
-    @disposables.push disposableProcessEditor
+    @disposables.add disposableConfigListener
+    @disposables.add disposableReformat
+    @disposables.add disposableHTMLTOJSX
+    @disposables.add disposableProcessEditor
 
 
 module.exports = AtomReact

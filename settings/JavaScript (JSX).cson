@@ -5,9 +5,7 @@
     'increaseIndentPattern': '(?x)
     ((^|=|return)\\s*(<[-_\\.A-Za-z0-9]+))
       | \\{ [^}]* $
-      | \\( [^)]* $
-      | case[\\s\\S]*: $
-      | default: $'
+      | \\( [^)]* $'
     'decreaseIndentPattern': '(?x)
     ^\\s*(</[-_\\.A-Za-z0-9]+)
     | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'

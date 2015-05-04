@@ -125,7 +125,7 @@ class AtomReact
     HTMLtoJSX = require './htmltojsx'
     converter = new HTMLtoJSX(createClass: false)
 
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
 
     return if not @isReactEnabledForEditor editor
 
@@ -149,7 +149,7 @@ class AtomReact
     jsxformat = require 'jsxformat'
     _ = require 'lodash'
 
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
 
     return if not @isReactEnabledForEditor editor
 

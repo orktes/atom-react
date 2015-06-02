@@ -1,23 +1,4 @@
-# TODO: this is broken:
-# _renderAddressTables: (idx, address) ->
-#     # TODO: key prop
-#     @props.addresses.map((address, idx) =>
-#       <SectionTable onEdit={=> @_onEditAddress(address)} key={address.get('id')}>
-#         <AddressRow
-#           title="Location ##{idx+1}"
-#           street1={address.get('street_1')}
-#           street2={address.get('street_2')}
-#           state={address.get('state')}
-#           city={address.get('city')}
-#           zip={address.get('zip')}
-#           phone={address.get('phone')}
-#         />
-#       </SectionTable>
-#     ).toArray()
-
-# Also, this file is considered CJSX
-
-'name': 'CoffeeScript blarg (JSX)'
+'name': 'CoffeeScript (JSX)'
 'scopeName': 'source.coffee.jsx'
 'comment': 'Coffee-React Syntax'
 'fileTypes': [
@@ -48,7 +29,6 @@
         ]
       }
     ]
-  # jsx-entities
   'entities':
     'patterns': [
       {
@@ -65,7 +45,6 @@
         'name': 'invalid.illegal.bad-ampersand.html'
       }
     ]
-  # double_quoted_string?
   'string-double-quoted':
     'begin': '"'
     'beginCaptures':
@@ -84,7 +63,6 @@
         'include': '#entities'
       }
     ]
-  # single_quoted_string?
   'string-single-quoted':
     'begin': '\''
     'beginCaptures':
@@ -100,7 +78,6 @@
         'include': '#entities'
       }
     ]
-  # jsx-tag-attribute-name?
   'tag-generic-attribute':
     'match': '(?<=[^=])\\b([a-zA-Z0-9:-]+)'
     'name': 'entity.other.attribute-name.html'

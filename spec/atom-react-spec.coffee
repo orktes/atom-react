@@ -2,6 +2,8 @@ describe "React tests", ->
   sampleCorrectFile = require.resolve './fixtures/sample-correct.js'
   sampleCorrectNativeFile = require.resolve './fixtures/sample-correct-native.js'
   sampleCorrectES6File = require.resolve './fixtures/sample-correct-es6.js'
+  sampleCorrectAddonsES6File = require.resolve './fixtures/sample-correct-addons-es6.js'
+  sampleCorrectAddonsFile = require.resolve './fixtures/sample-correct-addons.js'
   sampleInvalidFile = require.resolve './fixtures/sample-invalid.js'
 
   beforeEach ->
@@ -28,9 +30,21 @@ describe "React tests", ->
           expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
           editor.destroy()
 
+    it "should select source.js.jsx if file has require('react/addons')", ->
+      waitsForPromise ->
+        atom.workspace.open(sampleCorrectAddonsFile, autoIndent: false).then (editor) ->
+          expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
+          editor.destroy()
+
     it "should select source.js.jsx if file has react es6 import", ->
       waitsForPromise ->
         atom.workspace.open(sampleCorrectES6File, autoIndent: false).then (editor) ->
+          expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
+          editor.destroy()
+
+    it "should select source.js.jsx if file has react/addons es6 import", ->
+      waitsForPromise ->
+        atom.workspace.open(sampleCorrectAddonsES6File, autoIndent: false).then (editor) ->
           expect(editor.getGrammar().scopeName).toEqual 'source.js.jsx'
           editor.destroy()
 

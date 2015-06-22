@@ -75,4 +75,59 @@
   "React: render(component, container, [callback])":
     prefix: "rrc"
     body: "React.render(${1:<$2 />}, ${3:document.body}${4:, ${5:callback}});"
+
+  # React >0.13 (ES6)
+
+  ".source.js":
+    "React: componentDidMount() { ... }":
+      prefix: "cdm6"
+      body: "componentDidMount() {\n\t${1}\n}"
+
+    "React: componentDidUpdate(pp, ps) { ... }":
+      prefix: "cdup6"
+      body: "componentDidUpdate(prevProps, prevState) {\n\t${1}\n}"
+
+    "React: componentWillMount() { ... }":
+      prefix: "cwm6"
+      body: "componentWillMount() {\n\t${1}\n}"
+
+    "React: componentWillReceiveProps(np) { ... }":
+      prefix: "cwr6"
+      body: "componentWillReceiveProps(nextProps) {\n\t${1}\n}"
+
+    "React: componentWillUnmount() { ... }":
+      prefix: "cwun6"
+      body: "componentWillUnmount: function() {\n\t${1}\n}"
+
+    "React: componentWillUpdate(np, ns) { ... }":
+      prefix: "cwu6"
+      body: "componentWillUpdate: function(nextProps, nextState) {\n\t${1}\n}"
+
+    "React: static defaultProps = { ... }":
+      prefix: "dp"
+      body: "static defaultProps = {\n\t${1}\n}"
+
+    "React: this.state = { ... }":
+      prefix: "is"
+      body: "this.state = {\n\treturn ${1}: ${2}\n}"
+
+    "React: static propTypes = { ... }":
+      prefix: "pt6"
+      body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n},"
+
+    "React: component skeleton":
+      prefix: "rcc6"
+      body: "import React from 'react'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
+
+    "React: render() { return ... }":
+      prefix: "ren6"
+      body: "render() {\n\treturn (\n\t\t${1:<div />}\n\t);\n}"
+
+    "React: setState({ ... })":
+      prefix: "sst6"
+      body: "this.setState({\n\t${1}: ${2}\n});"
+
+    "React: shouldComponentUpdate(np, ns) { ... }":
+      prefix: "scu6"
+      body: "shouldComponentUpdate(nextProps, nextState) {\n\t${1}\n},"
 }

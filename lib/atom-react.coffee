@@ -1,7 +1,7 @@
 {CompositeDisposable, Disposable} = require 'atom'
 
 contentCheckRegex = null
-defaultDetectReactFilePattern = '/((require\\([\'"]react(?:-native)?[\'"]\\)))|(import\\s+\\w+\\s+from\\s+[\'"]react(?:-native)?[\'"])/'
+defaultDetectReactFilePattern = '/((require\\([\'"]react(?:(-native|\\/addons))?[\'"]\\)))|(import\\s+\\w+\\s+from\\s+[\'"]react(?:(-native|\\/addons))?[\'"])/'
 autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]+)/g
 autoCompleteTagCloseRegex = /(<\/)([^>]+)(>)/g
 

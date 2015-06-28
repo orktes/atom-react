@@ -109,15 +109,19 @@
 
     "React: this.state = { ... }":
       prefix: "is"
-      body: "this.state = {\n\treturn ${1}: ${2}\n}"
+      body: "this.state = {\n\t${1}: ${2}\n}"
 
     "React: static propTypes = { ... }":
       prefix: "pt6"
       body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n},"
 
-    "React: component skeleton":
-      prefix: "rcc6"
+    "React: class skeleton":
+      prefix: "rcd"
       body: "import React from 'react'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
+
+    'React: component skeleton':
+      prefix: 'rcc6'
+      body: 'import React from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n'
 
     "React: render() { return ... }":
       prefix: "ren6"
@@ -130,4 +134,8 @@
     "React: shouldComponentUpdate(np, ns) { ... }":
       prefix: "scu6"
       body: "shouldComponentUpdate(nextProps, nextState) {\n\t${1}\n},"
+
+    "React: const { props: { ... } } = this":
+      prefix: "props6"
+      body: "const { props: { ${1} } } = this"
 }

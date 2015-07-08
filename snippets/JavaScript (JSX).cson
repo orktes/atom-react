@@ -94,11 +94,11 @@
 
   "React: componentWillUnmount() { ... } (ES6)":
     prefix: "cwun6"
-    body: "componentWillUnmount: function() {\n\t${1}\n}"
+    body: "componentWillUnmount() {\n\t${1}\n}"
 
   "React: componentWillUpdate(np, ns) { ... } (ES6)":
     prefix: "cwu6"
-    body: "componentWillUpdate: function(nextProps, nextState) {\n\t${1}\n}"
+    body: "componentWillUpdate(nextProps, nextState) {\n\t${1}\n}"
 
   "React: static defaultProps = { ... }":
     prefix: "dp"

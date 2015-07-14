@@ -13,9 +13,14 @@ decreaseIndentForNextLinePattern = '(?x)
 
 class AtomReact
   config:
+    enabledForAllJavascriptFiles:
+      type: 'boolean'
+      default: false
+      description: 'Enable grammar, snippets and other features automatically for all .js files.'
     disableAutoClose:
       type: 'boolean'
       default: false
+      description: 'Disabled tag autocompletion'
     detectReactFilePattern:
       type: 'string'
       default: defaultDetectReactFilePattern
@@ -101,6 +106,9 @@ class AtomReact
     @patchEditorLangModeAutoDecreaseIndentForBufferRow(editor)?.jsxPatch = true
 
   isReact: (text) ->
+    return true if atom.config.get('react.enabledForAllJavascriptFiles')
+
+
     if not contentCheckRegex?
       match = (atom.config.get('react.detectReactFilePattern') || defaultDetectReactFilePattern).match(new RegExp('^/(.*?)/([gimy]*)$'));
       contentCheckRegex = new RegExp(match[1], match[2])

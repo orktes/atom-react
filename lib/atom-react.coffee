@@ -107,7 +107,7 @@ class AtomReact
     return text.match(contentCheckRegex)?
 
   isReactEnabledForEditor: (editor) ->
-    return editor? && editor.getGrammar().scopeName == "source.js.jsx"
+    return editor? && editor.getGrammar().scopeName in ["source.js.jsx", "source.coffee.jsx"]
 
   autoSetGrammar: (editor) ->
     return if @isReactEnabledForEditor editor

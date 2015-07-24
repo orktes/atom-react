@@ -31,5 +31,5 @@ describe "JSX indent", ->
       editor.autoIndentBufferRows(0, formattedLines.length - 1)
       for i in [0...formattedLines.length]
         line = formattedLines[i]
-        break if !line.trim()
+        continue if !line.trim()
         expect((i + 1) + ":" + buffer.lineForRow(i)).toBe ((i + 1) + ":" + line)

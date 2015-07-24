@@ -4,11 +4,13 @@
     'foldEndPattern': '(^\\s*\\</|^\\s*\\}|^\\s*\\]|^\\s*\\|/>\\s*$)'
     'increaseIndentPattern': '(?x)
     ((^|=|return)\\s*(<[-_\\.A-Za-z0-9]+))
-      | \\{ [^}]* $
-      | \\( [^)]* $'
+      | ^[^"\']*\\{[^}]* $
+      | \\{\\s*$
+      | \\[ [^\\]"\']* $
+      | \\( [^)"\']* $'
     'decreaseIndentPattern': '(?x)
     ^\\s*(</[-_\\.A-Za-z0-9]+)
-    | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [})]'
+    | ^ \\s* (\\s* /[*] .* [*]/ \\s*)* [}\\])]'
 
 '.source.js.jsx .tag:not(.entity.other.attribute-name, .entity.name.tag, .punctuation.definition.tag.begin, .invalid.illegal.incomplete .string, .curly)':
   'editor':

@@ -41,7 +41,7 @@ function () {
 
 function () {
   if (foo && bar) {
-    func(function (test) {
+    func('foobar', function (test) {
       test
     });
   }
@@ -55,10 +55,16 @@ try {
   statements
 }
 
-foo = "{"
+foo = "{";
 
 if (foobar) {
   if (foobar === "}") {
     foobar();
   }
 }
+
+var foo = [
+  {
+    bar: 'baz'
+  }
+];

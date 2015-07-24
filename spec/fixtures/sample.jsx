@@ -41,24 +41,30 @@ attr2="" />;
 
 function () {
 if (foo && bar) {
-func('foobar' function (test) {
+func('foobar', function (test) {
 test
 });
 }
 }
 
 try {
-  statements
+statements
 } catch (variable) {
-  statements
+statements
 } finally {
-  statements
+statements
 }
 
-foo = "{"
+foo = "{";
 
 if (foobar) {
 if (foobar === "}") {
 foobar();
 }
 }
+
+var foo = [
+{
+bar: 'baz'
+}
+];

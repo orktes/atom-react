@@ -50,7 +50,7 @@
 
   "React: component skeleton":
     prefix: "rcc"
-    body: "var React = require('react');\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};"
+    body: "var React = require('react');\nvar PropTypes = React.PropTypes;\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};"
 
   "React: render: fn() { return ... }":
     prefix: "ren"
@@ -114,11 +114,11 @@
 
   "React: class skeleton":
     prefix: "rcd"
-    body: "import React from 'react'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
+    body: "import React, { PropTypes } from 'react'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
 
   "React: component skeleton (ES6)":
     prefix: "rcc6"
-    body: "import React from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
+    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
 
   "React: render() { return ... } (ES6)":
     prefix: "ren6"

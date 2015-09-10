@@ -102,10 +102,10 @@ describe "React grammar", ->
         1
         / 2
       """
-
       expect(lines[0][0]).toEqual value: '1', scopes: ['source.js.jsx', 'constant.numeric.js']
-      expect(lines[1][0]).toEqual value: '/ ', scopes: ['source.js.jsx']
-      expect(lines[1][1]).toEqual value: '2', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(lines[1][0]).toEqual value: '/', scopes: ['source.js.jsx', 'keyword.operator.js']
+      expect(lines[1][1]).toEqual value: ' ', scopes: ['source.js.jsx']
+      expect(lines[1][2]).toEqual value: '2', scopes: ['source.js.jsx', 'constant.numeric.js']
 
   describe "ES6 string templates", ->
     it "tokenizes them as strings", ->

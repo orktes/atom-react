@@ -110,7 +110,7 @@
 
   "React: static propTypes = { ... } (ES6)":
     prefix: "pt6"
-    body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n},"
+    body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n}"
 
   "React: class skeleton":
     prefix: "rcd"
@@ -130,7 +130,7 @@
 
   "React: shouldComponentUpdate(np, ns) { ... } (ES6)":
     prefix: "scu6"
-    body: "shouldComponentUpdate(nextProps, nextState) {\n\t${1}\n},"
+    body: "shouldComponentUpdate(nextProps, nextState) {\n\t${1}\n}"
 
   "React: const { props: { ... } } = this (ES6)":
     prefix: "props6"

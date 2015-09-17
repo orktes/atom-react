@@ -1,1 +1,1 @@
-import React from 'react'; // import react
+import React, { Component, PropTypes } from 'react'; // import react

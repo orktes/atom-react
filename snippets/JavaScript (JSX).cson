@@ -38,7 +38,7 @@
 
   "React: getInitialState: fn() { return {...} } ":
     prefix: "gis"
-    body: "getInitialState: function() {\n\treturn {\n\t\t${1}: ${2}\n\t};\n},"
+    body: "getInitialState: function() {\n\treturn {\n\t\t${1}:${2}\n\t};\n},"
 
   "React: isMounted()":
     prefix: "ism"
@@ -135,43 +135,43 @@
   "React: const { props: { ... } } = this (ES6)":
     prefix: "props6"
     body: "const { props: { ${1} } } = this"
-    
+
   "PropTypes.func.isRequired":
     prefix: "ptf"
     body: "PropTypes.func.isRequired"
-  
+
   "PropTypes.string.isRequired":
     prefix: "pts"
     body: "PropTypes.string.isRequired"
-  
+
   "PropTypes.object.isRequired":
     prefix: "pto"
     body: "PropTypes.object.isRequired"
-  
+
   "PropTypes.array.isRequired":
     prefix: "pta"
     body: "PropTypes.array.isRequired"
-  
+
   "PropTypes.bool.isRequired":
     prefix: "ptb"
     body: "PropTypes.bool.isRequired"
-  
+
   "PropTypes.number.isRequired":
     prefix: "ptn"
     body: "PropTypes.number.isRequired"
-  
+
   "PropTypes.node.isRequired":
     prefix: "ptnode"
     body: "PropTypes.node.isRequired"
-  
+
   "PropTypes.element.isRequired":
     prefix: "pte"
     body: "PropTypes.element.isRequired"
-  
+
   "PropTypes.any.isRequired":
     prefix: "ptany"
     body: "PropTypes.any.isRequired"
-  
+
   "PropTypes.shape({...}).isRequired":
     prefix: "ptshape"
     body: "PropTypes.shape({ $1: $2 }).isRequired"

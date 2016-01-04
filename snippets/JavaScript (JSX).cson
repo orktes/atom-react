@@ -120,6 +120,10 @@
     prefix: "rcc6"
     body: "import React, { PropTypes } from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
 
+  "React: stateless component (ES6)":
+    prefix: "rcs"
+    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1}\n"
+
   "React: render() { return ... } (ES6)":
     prefix: "ren6"
     body: "render() {\n\treturn (\n\t\t${1:<div />}\n\t);\n}"

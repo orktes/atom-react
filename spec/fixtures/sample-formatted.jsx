@@ -31,6 +31,9 @@
     </div>
   }
 </div>
+<img
+  src="path/to/source"
+/>
 
 function () {
   return <div

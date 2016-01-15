@@ -4,8 +4,12 @@
 
 Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for more information.
 
-## New in version 0.11 (5 April 2015)
+# Changelog (notable changes)
 
+## 0.14 (15 January 2016)
+- Fixes related syntax highlighting inside functions and methods in atom 1.4
+
+## 0.11 (5 April 2015)
 - Closing tag auto-completion [in action](https://cloud.githubusercontent.com/assets/606347/6997161/28412172-dbb9-11e4-9719-2d58b0b79b3f.gif)
 
 ## Features

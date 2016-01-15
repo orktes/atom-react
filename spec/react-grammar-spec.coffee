@@ -95,7 +95,7 @@ describe "React grammar", ->
   describe "operators", ->
     it "tokenizes void correctly", ->
       {tokens} = grammar.tokenizeLine('void')
-      expect(tokens[0]).toEqual value: 'void', scopes: ['source.js.jsx', 'keyword.operator.js']
+      expect(tokens[0]).toEqual value: 'void', scopes: ['source.js.jsx', 'keyword.operator.void.js']
 
     it "tokenizes the / arithmetic operator when separated by newlines", ->
       lines = grammar.tokenizeLines """

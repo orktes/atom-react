@@ -12,10 +12,22 @@
     'include': '#jsx'
   }
   {
+    'include': '#method_call'
+  }
+  {
+    'include': '#function_call'
+  }
+  {
     'include': 'source.js'
   }
 ]
 'repository':
+  'arguments':
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
   'pcdata':
     'patterns': [
       {
@@ -148,5 +160,53 @@
       }
       {
         'include': '#jsx-tag-invalid'
+      }
+    ]
+  'method_call':
+    'patterns': [
+      {
+        'comment': '.methodCall(arg1, "arg2", [...])'
+        'begin': '(\\.)([a-zA-Z_$][\\w$]*)\\s*(\\()'
+        'beginCaptures':
+          '1':
+            'name': 'meta.delimiter.method.period.js'
+          '2':
+            'name': 'entity.name.function.js'
+          '3':
+            'name': 'punctuation.definition.arguments.begin.js'
+        'end': '\\)'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.arguments.end.js'
+        'name': 'meta.method-call.js'
+        'patterns': [
+          {
+            'include': '#arguments'
+          }
+        ]
+      }
+    ]
+  'function_call':
+    'patterns': [
+      {
+        'comment': 'functionCall(arg1, "arg2", [...])'
+        'begin': '(?:(\\d\\w*)|([a-zA-Z_$][\\w$]*))\\s*(\\()'
+        'beginCaptures':
+          '1':
+            'name': 'invalid.illegal.js'
+          '2':
+            'name': 'entity.name.function.js'
+          '3':
+            'name': 'punctuation.definition.arguments.begin.js'
+        'end': '\\)'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.arguments.end.js'
+        'name': 'meta.function-call.js'
+        'patterns': [
+          {
+            'include': '#arguments'
+          }
+        ]
       }
     ]

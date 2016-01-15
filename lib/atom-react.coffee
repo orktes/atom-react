@@ -9,7 +9,6 @@ jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
 jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
 decreaseIndentForNextLinePattern = '(?x)
 />\\s*(,|;)?\\s*$
-| ^\\s*(/>)$
 | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
 class AtomReact

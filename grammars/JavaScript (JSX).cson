@@ -12,6 +12,10 @@
     'include': '#jsx'
   }
   {
+    'match': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b'
+    'name': 'keyword.control.js'
+  }
+  {
     'include': '#method_call'
   }
   {

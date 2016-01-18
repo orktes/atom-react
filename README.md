@@ -5,6 +5,8 @@
 Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for more information.
 
 # Changelog (notable changes)
+## v0.14.1 (18 January 2016)
+- Fix issue that caused `return (...);` to be tokenized as a function call.
 
 ## 0.14 (15 January 2016)
 - Fixes related syntax highlighting inside functions and methods in atom 1.4

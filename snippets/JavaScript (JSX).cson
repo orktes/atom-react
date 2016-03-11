@@ -2,8 +2,8 @@
 ".source.js":
   "React: constructor(props){ ... }":
     prefix: "construct"
-    body: "constructor(props) {\n\tsuper(props)\n\n\tthis.state = {\n\t\t $1 : \'\' \n\t} \n};"
-    
+    body: "constructor(props) {\n\tsuper(props)\n\n\tthis.state = {\n\t\t ${1} : \'${2}\' \n\t} \n};"
+
   "React: componentDidMount: fn() { ... }":
     prefix: "cdm"
     body: "componentDidMount: function() {\n\t${1}\n},"

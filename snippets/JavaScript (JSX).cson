@@ -102,7 +102,7 @@
 
   "React: static defaultProps = { ... }":
     prefix: "dp"
-    body: "static defaultProps = {\n\t${1}\n}"
+    body: "static defaultProps = {\n\t${1}\n};"
 
   "React: this.state = { ... }":
     prefix: "is"
@@ -110,7 +110,7 @@
 
   "React: static propTypes = { ... } (ES6)":
     prefix: "pt6"
-    body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n}"
+    body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n};"
 
   "React: class skeleton":
     prefix: "rcd"
@@ -139,43 +139,43 @@
   "React: const { props: { ... } } = this (ES6)":
     prefix: "props6"
     body: "const { props: { ${1} } } = this"
-    
+
   "PropTypes.func.isRequired":
     prefix: "ptf"
     body: "PropTypes.func.isRequired"
-  
+
   "PropTypes.string.isRequired":
     prefix: "pts"
     body: "PropTypes.string.isRequired"
-  
+
   "PropTypes.object.isRequired":
     prefix: "pto"
     body: "PropTypes.object.isRequired"
-  
+
   "PropTypes.array.isRequired":
     prefix: "pta"
     body: "PropTypes.array.isRequired"
-  
+
   "PropTypes.bool.isRequired":
     prefix: "ptb"
     body: "PropTypes.bool.isRequired"
-  
+
   "PropTypes.number.isRequired":
     prefix: "ptn"
     body: "PropTypes.number.isRequired"
-  
+
   "PropTypes.node.isRequired":
     prefix: "ptnode"
     body: "PropTypes.node.isRequired"
-  
+
   "PropTypes.element.isRequired":
     prefix: "pte"
     body: "PropTypes.element.isRequired"
-  
+
   "PropTypes.any.isRequired":
     prefix: "ptany"
     body: "PropTypes.any.isRequired"
-  
+
   "PropTypes.shape({...}).isRequired":
     prefix: "ptshape"
     body: "PropTypes.shape({ $1: $2 }).isRequired"

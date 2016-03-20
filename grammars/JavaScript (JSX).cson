@@ -12,8 +12,22 @@
     'include': '#jsx'
   }
   {
-    'match': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b'
-    'name': 'keyword.control.js'
+    'comment': 'Fix issue that caused some keywords to appear as func calls. https://github.com/orktes/atom-react/issues/138 https://github.com/orktes/atom-react/issues/148'
+    'begin': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b\\s*(\\()'
+    'beginCaptures':
+      '1':
+        'name': 'keyword.control.js'
+      '2':
+        'name': 'meta.brace.round.js'
+    'end': '(\\))'
+    'endCaptures':
+      '1':
+        'name': 'meta.brace.round.js'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
   }
   {
     'include': '#method_call'

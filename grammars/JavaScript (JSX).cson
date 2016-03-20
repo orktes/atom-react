@@ -16,10 +16,25 @@
     'name': 'keyword.control.js'
   }
   {
-    'include': '#method_call'
+    'begin': '\\('
+    'beginCaptures':
+      '0':
+        'name': 'meta.brace.round.js'
+    'end': '\\)'
+    'endCaptures':
+      '0':
+        'name': 'meta.brace.round.js'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
   }
   {
-    'include': '#function_call'
+   'include': '#method_calls'
+  }
+  {
+   'include': '#function_calls'
   }
   {
     'include': 'source.js'
@@ -166,22 +181,78 @@
         'include': '#jsx-tag-invalid'
       }
     ]
-  'method_call':
+  'method_calls':
     'patterns': [
       {
-        'comment': '.methodCall(arg1, "arg2", [...])'
-        'begin': '(\\.)([a-zA-Z_$][\\w$]*)\\s*(\\()'
+        # .methodCall(arg1, "arg2", [...])
+        'begin': '(\\.)\\s*([\\w$]+)\\s*(?=\\()'
         'beginCaptures':
           '1':
             'name': 'meta.delimiter.method.period.js'
           '2':
-            'name': 'entity.name.function.js'
-          '3':
-            'name': 'punctuation.definition.arguments.begin.js'
-        'end': '\\)'
-        'endCaptures':
-          '0':
-            'name': 'punctuation.definition.arguments.end.js'
+            'patterns': [
+              {
+                'match': '''(?x)
+                  \\bon(Rowsinserted|Rowsdelete|Rowenter|Rowexit|Resize|Resizestart|Resizeend|Reset|
+                  Readystatechange|Mouseout|Mouseover|Mousedown|Mouseup|Mousemove|
+                  Before(cut|deactivate|unload|update|paste|print|editfocus|activate)|
+                  Blur|Scrolltop|Submit|Select|Selectstart|Selectionchange|Hover|Help|
+                  Change|Contextmenu|Controlselect|Cut|Cellchange|Clock|Close|Deactivate|
+                  Datasetchanged|Datasetcomplete|Dataavailable|Drop|Drag|Dragstart|Dragover|
+                  Dragdrop|Dragenter|Dragend|Dragleave|Dblclick|Unload|Paste|Propertychange|Error|
+                  Errorupdate|Keydown|Keyup|Keypress|Focus|Load|Activate|Afterupdate|Afterprint|Abort)\\b
+                '''
+                'name': 'support.function.event-handler.js'
+              }
+              {
+                'match': '''(?x)
+                  \\b(shift|showModelessDialog|showModalDialog|showHelp|scroll|scrollX|scrollByPages|
+                  scrollByLines|scrollY|scrollTo|stop|strike|sin|sizeToContent|sidebar|signText|sort|
+                  sup|sub|substr|substring|splice|split|send|set(Milliseconds|Seconds|Minutes|Hours|
+                  Month|Year|FullYear|Date|UTC(Milliseconds|Seconds|Minutes|Hours|Month|FullYear|Date)|
+                  Time|Hotkeys|Cursor|ZOptions|Active|Resizable|RequestHeader)|search|sqrt|slice|
+                  savePreferences|small|home|handleEvent|navigate|char|charCodeAt|charAt|cos|concat|
+                  contextual|confirm|compile|ceil|clear|captureEvents|call|createStyleSheet|createPopup|
+                  createEventObject|to(GMTString|UTCString|String|Source|UpperCase|LowerCase|LocaleString)|
+                  test|tan|taint|taintEnabled|indexOf|italics|disableExternalCapture|dump|detachEvent|unshift|
+                  untaint|unwatch|updateCommands|join|javaEnabled|pop|pow|push|plugins.refresh|paddings|parse|
+                  print|prompt|preference|enableExternalCapture|elementFromPoint|exp|exec|execScript|
+                  execCommand|valueOf|UTC|queryCommandState|queryCommandIndeterm|queryCommandEnabled|
+                  queryCommandValue|find|file|fileModifiedDate|fileSize|fileCreatedDate|fileUpdatedDate|
+                  fixed|fontsize|fontcolor|forward|floor|fromCharCode|watch|link|load|log|lastIndexOf|
+                  asin|anchor|acos|attachEvent|atob|atan|atan2|apply|alert|abs|abort|round|routeEvents|
+                  resize|resizeBy|resizeTo|recalc|returnValue|replace|reverse|reload|releaseCapture|
+                  releaseEvents|random|go|get(Milliseconds|Seconds|Minutes|Hours|Month|Day|Year|FullYear|
+                  Time|Date|TimezoneOffset|UTC(Milliseconds|Seconds|Minutes|Hours|Day|Month|FullYear|Date)|
+                  Attention|Selection|ResponseHeader|AllResponseHeaders)|min|moveBy|moveBelow|moveTo|
+                  moveToAbsolute|moveAbove|mergeAttributes|match|margins|max|btoa|big|bold|borderWidths|blink|back)\\b
+                '''
+                'name': 'support.function.js'
+              }
+              {
+                'match': '''(?x)
+                  \\b(substringData|submit|splitText|setNamedItem|setAttribute|setAttributeNode|select|
+                  hasChildNodes|hasFeature|namedItem|click|close|cloneNode|createComment|createCDATASection|
+                  createCaption|createTHead|createTextNode|createTFoot|createDocumentFragment|
+                  createProcessingInstruction|createEntityReference|createElement|createAttribute|
+                  tabIndex|insertRow|insertBefore|insertCell|insertData|item|open|deleteRow|deleteCell|
+                  deleteCaption|deleteTHead|deleteTFoot|deleteData|focus|write|writeln|add|appendChild|
+                  appendData|reset|replaceChild|replaceData|move|moveNamedItem|moveChild|moveAttribute|
+                  moveAttributeNode|getNamedItem|getElementsByName|getElementsByTagName|getElementById|
+                  getAttribute|getAttributeNode|blur)\\b
+                '''
+                'name': 'support.function.dom.js'
+              }
+              {
+                'match': "[a-zA-Z_$][\\w$]*"
+                'name': 'entity.name.function.js'
+              }
+              {
+                'match': '\\d[\\w$]*'
+                'name': 'invalid.illegal.identifier.js'
+              }
+            ]
+        'end': '(?<=\\))'
         'name': 'meta.method-call.js'
         'patterns': [
           {
@@ -190,22 +261,32 @@
         ]
       }
     ]
-  'function_call':
+  'function_calls':
     'patterns': [
       {
-        'comment': 'functionCall(arg1, "arg2", [...])'
-        'begin': '(?:(\\d\\w*)|([a-zA-Z_$][\\w$]*))\\s*(\\()'
+        # functionCall(arg1, "arg2", [...])
+        'begin': '([\\w$]+)\\s*(?=\\()'
         'beginCaptures':
           '1':
-            'name': 'invalid.illegal.js'
-          '2':
-            'name': 'entity.name.function.js'
-          '3':
-            'name': 'punctuation.definition.arguments.begin.js'
-        'end': '\\)'
-        'endCaptures':
-          '0':
-            'name': 'punctuation.definition.arguments.end.js'
+            'patterns': [
+              {
+                'match': '''(?x)
+                  \\b(isNaN|isFinite|eval|uneval|parseInt|parseFloat|decodeURI|
+                  decodeURIComponent|encodeURI|encodeURIComponent|escape|unescape|
+                  require|set(Interval|Timeout)|clear(Interval|Timeout))\\b
+                '''
+                'name': 'support.function.js'
+              }
+              {
+                'match': "[a-zA-Z_$][\\w$]*"
+                'name': 'entity.name.function.js'
+              }
+              {
+                'match': '\\d[\\w$]*'
+                'name': 'invalid.illegal.identifier.js'
+              }
+            ]
+        'end': '(?<=\\))'
         'name': 'meta.function-call.js'
         'patterns': [
           {

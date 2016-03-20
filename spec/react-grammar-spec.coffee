@@ -72,7 +72,7 @@ describe "React grammar", ->
 
       {tokens} = grammar.tokenizeLine('[1, /test/]')
       expect(tokens[0]).toEqual value: '[', scopes: ['source.js.jsx', 'meta.brace.square.js']
-      expect(tokens[1]).toEqual value: '1', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[1]).toEqual value: '1', scopes: ['source.js.jsx', 'constant.numeric.decimal.js']
       expect(tokens[2]).toEqual value: ',', scopes: ['source.js.jsx', 'meta.delimiter.object.comma.js']
       expect(tokens[3]).toEqual value: ' ', scopes: ['source.js.jsx', 'string.regexp.js']
       expect(tokens[4]).toEqual value: '/', scopes: ['source.js.jsx', 'string.regexp.js', 'punctuation.definition.string.begin.js']
@@ -81,22 +81,22 @@ describe "React grammar", ->
       expect(tokens[7]).toEqual value: ']', scopes: ['source.js.jsx', 'meta.brace.square.js']
 
       {tokens} = grammar.tokenizeLine('0x1D306')
-      expect(tokens[0]).toEqual value: '0x1D306', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0x1D306', scopes: ['source.js.jsx', 'constant.numeric.hex.js']
 
       {tokens} = grammar.tokenizeLine('0X1D306')
-      expect(tokens[0]).toEqual value: '0X1D306', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0X1D306', scopes: ['source.js.jsx', 'constant.numeric.hex.js']
 
       {tokens} = grammar.tokenizeLine('0b011101110111010001100110')
-      expect(tokens[0]).toEqual value: '0b011101110111010001100110', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0b011101110111010001100110', scopes: ['source.js.jsx', 'constant.numeric.binary.js']
 
       {tokens} = grammar.tokenizeLine('0B011101110111010001100110')
-      expect(tokens[0]).toEqual value: '0B011101110111010001100110', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0B011101110111010001100110', scopes: ['source.js.jsx', 'constant.numeric.binary.js']
 
       {tokens} = grammar.tokenizeLine('0o1411')
-      expect(tokens[0]).toEqual value: '0o1411', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0o1411', scopes: ['source.js.jsx', 'constant.numeric.octal.js']
 
       {tokens} = grammar.tokenizeLine('0O1411')
-      expect(tokens[0]).toEqual value: '0O1411', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(tokens[0]).toEqual value: '0O1411', scopes: ['source.js.jsx', 'constant.numeric.octal.js']
 
   describe "operators", ->
     it "tokenizes void correctly", ->
@@ -108,10 +108,10 @@ describe "React grammar", ->
         1
         / 2
       """
-      expect(lines[0][0]).toEqual value: '1', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(lines[0][0]).toEqual value: '1', scopes: ['source.js.jsx', 'constant.numeric.decimal.js']
       expect(lines[1][0]).toEqual value: '/', scopes: ['source.js.jsx', 'keyword.operator.js']
       expect(lines[1][1]).toEqual value: ' ', scopes: ['source.js.jsx']
-      expect(lines[1][2]).toEqual value: '2', scopes: ['source.js.jsx', 'constant.numeric.js']
+      expect(lines[1][2]).toEqual value: '2', scopes: ['source.js.jsx', 'constant.numeric.decimal.js']
 
   describe "ES6 string templates", ->
     it "tokenizes them as strings", ->
@@ -170,6 +170,34 @@ describe "React grammar", ->
     expect(tokens[3]).toEqual value: '</', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.begin.js"]
     expect(tokens[4]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
     expect(tokens[5]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
+
+  it "tokenizes jsx inside parenthesis", ->
+    {tokens} = grammar.tokenizeLine('return (<tag></tag>)')
+    expect(tokens[3]).toEqual value: '<', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[4]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.open.js","entity.name.tag.js"]
+    expect(tokens[5]).toEqual value: '>', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[6]).toEqual value: '</', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[7]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[8]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
+
+  it "tokenizes jsx inside function call", ->
+    {tokens} = grammar.tokenizeLine('foo(<tag></tag>)')
+    expect(tokens[2]).toEqual value: '<', scopes: ["source.js.jsx","meta.function-call.js","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[3]).toEqual value: 'tag', scopes: ["source.js.jsx","meta.function-call.js","tag.open.js","entity.name.tag.js"]
+    expect(tokens[4]).toEqual value: '>', scopes: ["source.js.jsx","meta.function-call.js","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[5]).toEqual value: '</', scopes: ["source.js.jsx","meta.function-call.js","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[6]).toEqual value: 'tag', scopes: ["source.js.jsx","meta.function-call.js","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[7]).toEqual value: '>', scopes: ["source.js.jsx","meta.function-call.js","tag.closed.js","punctuation.definition.tag.end.js"]
+
+  it "tokenizes jsx inside method call", ->
+    {tokens} = grammar.tokenizeLine('bar.foo(<tag></tag>)')
+    expect(tokens[4]).toEqual value: '<', scopes: ["source.js.jsx","meta.method-call.js","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[5]).toEqual value: 'tag', scopes: ["source.js.jsx","meta.method-call.js","tag.open.js","entity.name.tag.js"]
+    expect(tokens[6]).toEqual value: '>', scopes: ["source.js.jsx","meta.method-call.js","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[7]).toEqual value: '</', scopes: ["source.js.jsx","meta.method-call.js","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[8]).toEqual value: 'tag', scopes: ["source.js.jsx","meta.method-call.js","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[9]).toEqual value: '>', scopes: ["source.js.jsx","meta.method-call.js","tag.closed.js","punctuation.definition.tag.end.js"]
+
 
   it "tokenizes ' as string inside jsx", ->
     {tokens} = grammar.tokenizeLine('<tag>fo\'o</tag>')

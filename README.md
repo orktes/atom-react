@@ -7,6 +7,7 @@ Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for mor
 # Changelog (notable changes)
 ## v0.14.2 (20 March 2016)
 - Fix yet another regression caused by atom update. This time both rendering inside parenthesis and in function/method call arguments.
+- Add required semicolon to static class properties snippet
 
 ## v0.14.1 (18 January 2016)
 - Fix issue that caused `return (...);` to be tokenized as a function call.

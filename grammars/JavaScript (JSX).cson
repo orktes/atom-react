@@ -16,6 +16,21 @@
     'name': 'keyword.control.js'
   }
   {
+    'begin': '{'
+    'beginCaptures':
+      '0':
+        'name': 'meta.brace.curly.js'
+    'end': '}'
+    'endCaptures':
+      '0':
+        'name': 'meta.brace.curly.js'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
+  }
+  {
     'begin': '\\('
     'beginCaptures':
       '0':
@@ -27,6 +42,289 @@
     'patterns': [
       {
         'include': '$self'
+      }
+    ]
+  }
+  {
+    # [async] function [name](params)
+    # function* name(params) – generator function declaration
+    'begin': '(?=(\\basync\\b\\s*)?\\bfunction\\b)'
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=\\))'
+        'name': 'meta.function.js'
+        'patterns': [
+          {
+            'include': '#function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # [.]foo = function...
+    'begin': '(?=(\\.)?[a-zA-Z_$][\\w$]*\\s*=\\s*(\\basync\\b\\s*)?\\bfunction\\b)'
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?!\\G)(?<=\\))'
+        'name': 'meta.function.js'
+        'patterns': [
+          {
+            'match': '(\\.)?([a-zA-Z_$][\\w$]*)\\s*(=)\\s*'
+            'captures':
+              '1':
+                'name': 'meta.delimiter.method.period.js'
+              '2':
+                'name': 'entity.name.function.js'
+              '3':
+                'name': 'keyword.operator.assignment.js'
+          }
+          {
+            'include': '#function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # foo: function...
+    'begin': '(?=\\b[a-zA-Z_$][\\w$]*\\s*:\\s*(\\basync\\b\\s*)?\\bfunction\\b)'
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=\\))'
+        'name': 'meta.function.json.js'
+        'patterns': [
+          {
+            'match': '\\b([a-zA-Z_$][\\w$]*)\\s*(:)\\s*'
+            'captures':
+              '1':
+                'name': 'entity.name.function.js'
+              '2':
+                'name': 'keyword.operator.assignment.js'
+          }
+          {
+            'include': '#function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # "foo": function...
+    'begin': '(?=((\'[^\']*?\')|("[^"]*?"))\\s*:\\s*(\\basync\\b\\s*)?\\bfunction\\b)'
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=\\))'
+        'name': 'meta.function.json.js'
+        'patterns': [
+          {
+            'match': '(?:((\')([^\']*?)(\'))|((")([^"]*?)(")))\\s*(:)'
+            'captures':
+              '1':
+                'name': 'string.quoted.single.js'
+              '2':
+                'name': 'punctuation.definition.string.begin.js'
+              '3':
+                'name': 'entity.name.function.js'
+              '4':
+                'name': 'punctuation.definition.string.end.js'
+              '5':
+                'name': 'string.quoted.double.js'
+              '6':
+                'name': 'punctuation.definition.string.begin.js'
+              '7':
+                'name': 'entity.name.function.js'
+              '8':
+                'name': 'punctuation.definition.string.end.js'
+              '9':
+                'name': 'keyword.operator.assignment.js'
+          }
+          {
+            'include': '#function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    'begin': '(?=\\b(constructor)\\s*)'
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=\\))'
+        'name': 'meta.function.js'
+        'patterns': [
+          {
+            'match': '\\b(constructor)\\s*'
+            'name': 'entity.name.function.constructor.js'
+          }
+          {
+            'include': '#function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # ES6 method definitions: foo() {}
+    'begin': '''(?x)
+      (?=
+        (?!
+          (break|case|catch|continue|do|else|finally|for|function|if|export|
+          import|package|return|switch|throw|try|while|with)
+          [\\s\\(]
+        )
+        \\b[a-zA-Z_$][\\w$]*
+        \\s*\\(\\s*
+           (("[^"]*")|(\\'[^\\']*\\')|((?!"|\\'|\\(|\\)).))*
+        \\)\\s*\\{
+      )
+    '''
+    'end': '(?<=})'
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=\\))'
+        'name': 'meta.function.method.definition.js'
+        'patterns': [
+          {
+            'match': '\\b([a-zA-Z_$][\\w$]*)'
+            'name': 'entity.name.function.js'
+          }
+          {
+            'include': '#function_params'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # [param|(params)] => [expression|{statements}]
+    'begin': '''(?x)
+      (?=
+        (?<![A-Za-z0-9])
+        ((\\(([^\\(\\)]*)?\\))|[\\w$]+)
+        \\s*=>
+      )
+    '''
+    'end': '''(?x)
+      (?<=})|
+      ((?!
+        \\s*{|
+        \\G\\(|
+        \\G[\\w$]+|
+        \\s*/\\*|\\s*//
+      )(?=\\s*\\S))
+    '''
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=(=>))'
+        'name': 'meta.function.arrow.js'
+        'patterns': [
+          {
+            'include': '#arrow_function_innards'
+          }
+        ]
+      }
+    ]
+  }
+  {
+    # [.]foo = ... => ...
+    'begin': '''(?x)
+      (?=
+        (\\.)?[a-zA-Z_$][\\w$]*
+        \\s*(=)\\s*
+        ((\\(([^\\(\\)]*)?\\))|[\\w$]+)
+        \\s*=>
+      )
+    '''
+    'end': '''(?x)
+      (?<=})|
+      ((?!
+        \\s*{|
+        \\G(\\.)?[a-zA-Z_$][\\w$]*\\s*(=)\\s*\\(|
+        \\G(\\.)?[a-zA-Z_$][\\w$]*\\s*(=)\\s*[\\w$]+|
+        \\s*/\\*|\\s*//
+      )(?=\\s*\\S))
+    '''
+    'patterns': [
+      {
+        'include': '#comments'
+      }
+      {
+        'include': '#function_body'
+      }
+      {
+        'begin': '\\G'
+        'end': '(?<=(=>))'
+        'name': 'meta.function.arrow.js'
+        'patterns': [
+          {
+            'match': '\\G(\\.)?([a-zA-Z_$][\\w$]*)\\s*(=)'
+            'captures':
+              '1':
+                'name': 'meta.delimiter.method.period.js'
+              '2':
+                'name': 'entity.name.function.js'
+              '3':
+                'name': 'keyword.operator.assignment.js'
+          }
+          {
+            'include': '#arrow_function_innards'
+          }
+        ]
       }
     ]
   }
@@ -179,6 +477,164 @@
       }
       {
         'include': '#jsx-tag-invalid'
+      }
+    ]
+  'docblock':
+    'patterns': [
+      {
+        'match': '(?<!\\w)@(abstract|access|alias|arg|argument|async|attribute|augments|author|beta|borrows|bubbes|callback|chainable|class|classdesc|code|config|const|constant|constructor|constructs|copyright|default|defaultvalue|define|deprecated|desc|description|dict|emits|enum|event|example|exports?|extends|extension|extension_for|extensionfor|external|file|fileoverview|final|fires|for|function|global|host|ignore|implements|inherit[Dd]oc|inner|instance|interface|kind|lends|license|listens|main|member|memberof|method|mixex|mixins?|module|name|namespace|nocollapse|nosideeffects|override|overview|package|param|preserve|private|prop|property|protected|public|read[Oo]nly|record|require[ds]|returns?|see|since|static|struct|submodule|summary|template|this|throws|todo|tutorial|type|typedef|unrestricted|uses|var|variation|version|virtual|writeOnce)\\b'
+        'name': 'storage.type.class.jsdoc'
+      }
+      {
+        'match': '({\\b(?:[a-zA-Z_$][a-zA-Z_$0-9]*)\\b})\\s\\b([a-zA-Z_$][a-zA-Z_$0-9]*)\\b\\s*((?:(?!\\*\\/).)*)'
+        'captures':
+            0:
+              'name': 'other.meta.jsdoc'
+            1:
+              'name': 'entity.name.type.instance.jsdoc'
+            2:
+              'name': 'variable.other.jsdoc'
+            3:
+              'name': 'other.description.jsdoc'
+      }
+    ]
+  'comments':
+    'patterns': [
+      {
+        'begin': '/\\*\\*(?!/)'
+        'captures':
+          '0':
+            'name': 'punctuation.definition.comment.js'
+        'patterns': [
+          {
+            'include': '#docblock'
+          }
+        ]
+        'end': '\\*/'
+        'name': 'comment.block.documentation.js'
+      }
+      {
+        'begin': '/\\*'
+        'captures':
+          '0':
+            'name': 'punctuation.definition.comment.js'
+        'end': '\\*/'
+        'name': 'comment.block.js'
+      }
+      {
+        'begin': '(^[ \\t]+)?(?=//)'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.whitespace.comment.leading.js'
+        'end': '(?!\\G)'
+        'patterns': [
+          {
+            'begin': '//'
+            'beginCaptures':
+              '0':
+                'name': 'punctuation.definition.comment.js'
+            'end': '\\n'
+            'name': 'comment.line.double-slash.js'
+          }
+        ]
+      }
+    ]
+  'function_params':
+    'patterns': [
+      {
+        'begin': '\\('
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.parameters.begin.bracket.round.js'
+        'end': '\\)'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.parameters.end.bracket.round.js'
+        'name': 'meta.parameters.js'
+        'patterns': [
+          {
+            'match': '(\\.\\.\\.)([a-zA-Z_$][\\w$]*)'
+            'captures':
+              '1':
+                'name': 'keyword.operator.spread.js'
+              '2':
+                'name': 'variable.parameter.rest.function.js'
+          }
+          {
+            'include': '$self'
+          }
+          {
+            'match': '[a-zA-Z_$][\\w$]*'
+            'name': 'variable.parameter.function.js'
+          }
+        ]
+      }
+    ]
+  'function_body':
+    'patterns': [
+      {
+        'begin': '{'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.function.body.begin.bracket.curly.js'
+        'end': '}'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.function.body.end.bracket.curly.js'
+        'patterns': [
+          {
+            'include': '$self'
+          }
+        ]
+      }
+    ]
+  'function_innards':
+    'patterns': [
+      {
+        'match': '(?:\\b(async)\\b\\s*)?\\b(function)\\b(?:\\s*(\\*))?'
+        'captures':
+          '1':
+            'name': 'storage.modifier.async.js'
+          '2':
+            'name': 'storage.type.function.js'
+          '3':
+            'name': 'storage.modifier.generator.js'
+      }
+      {
+        'match': '[a-zA-Z_$][\\w$]*(?=\\s*\\()'
+        'name': 'entity.name.function.js'
+      }
+      {
+        'include': '#function_params'
+      }
+      {
+        'include': '#comments'
+      }
+    ]
+  'arrow_function_innards':
+    'patterns': [
+      {
+        'match': '=>'
+        'name': 'storage.type.function.arrow.js'
+      }
+      {
+        'include': '#function_params'
+      }
+      {
+        'match': '([a-zA-Z_$][\\w$]*)(?=\\s*=>)'
+        'captures':
+          '0':
+            'name': 'meta.parameters.js'
+          '1':
+            'name': 'variable.parameter.function.js'
+      }
+      {
+        'match': '(\\d[\\w$]*)'
+        'captures':
+          '0':
+            'name': 'meta.parameters.js'
+          '1':
+            'name': 'invalid.illegal.identifier.js'
       }
     ]
   'method_calls':

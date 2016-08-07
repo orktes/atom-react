@@ -180,6 +180,25 @@ describe "React grammar", ->
     expect(tokens[7]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
     expect(tokens[8]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
 
+  it "tokenizes jsx inside function body", ->
+    {tokens} = grammar.tokenizeLine('function () { return (<tag></tag>) }')
+    expect(tokens[10]).toEqual value: '<', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[11]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.open.js","entity.name.tag.js"]
+    expect(tokens[12]).toEqual value: '>', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[13]).toEqual value: '</', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[14]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[15]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
+
+  it "tokenizes jsx inside function body in an object", ->
+    {tokens} = grammar.tokenizeLine('{foo:function () { return (<tag></tag>) }}')
+    expect(tokens[13]).toEqual value: '<', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[14]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.open.js","entity.name.tag.js"]
+    expect(tokens[15]).toEqual value: '>', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[16]).toEqual value: '</', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[17]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[18]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
+
+
   it "tokenizes jsx inside function call", ->
     {tokens} = grammar.tokenizeLine('foo(<tag></tag>)')
     expect(tokens[2]).toEqual value: '<', scopes: ["source.js.jsx","meta.function-call.js","tag.open.js","punctuation.definition.tag.begin.js"]

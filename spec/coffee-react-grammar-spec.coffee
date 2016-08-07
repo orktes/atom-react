@@ -17,29 +17,31 @@ describe 'Coffee-React grammar', ->
   it 'tokenizes CoffeeScript', ->
     {tokens} = grammar.tokenizeLine('foo = @bar')
 
-    expect(tokens.length).toEqual 4
+    expect(tokens.length).toEqual 5
 
     expect(tokens[0]).toEqual
-      value: 'foo '
+      value: 'foo'
       scopes: [
         'source.coffee.jsx'
-        'variable.assignment.coffee'
         'variable.assignment.coffee'
       ]
     expect(tokens[1]).toEqual
-      value: '='
-      scopes: [
-        'source.coffee.jsx'
-        'variable.assignment.coffee'
-        'variable.assignment.coffee'
-        'keyword.operator.coffee'
-      ]
-    expect(tokens[2]).toEqual
       value: ' '
       scopes: [
         'source.coffee.jsx'
       ]
+    expect(tokens[2]).toEqual
+      value: '='
+      scopes: [
+        'source.coffee.jsx'
+        'keyword.operator.coffee'
+      ]
     expect(tokens[3]).toEqual
+      value: ' '
+      scopes: [
+        'source.coffee.jsx'
+      ]
+    expect(tokens[4]).toEqual
       value: '@bar'
       scopes: [
         'source.coffee.jsx'

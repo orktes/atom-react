@@ -216,7 +216,7 @@ class AtomReact
       # auto closing multiple cursors is a little bit tricky so lets disable it for now
       return if editor.getCursorBufferPositions().length > 1;
 
-      tokenizedLine = editor.displayBuffer?.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
+      tokenizedLine = editor.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
       return if not tokenizedLine?
 
       token = tokenizedLine.tokenAtBufferColumn(eventObj.newRange.end.column - 1)
@@ -251,7 +251,7 @@ class AtomReact
       row = eventObj.newRange.end.row
       fullLine = lines[row]
 
-      tokenizedLine = editor.displayBuffer?.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
+      tokenizedLine = editor.tokenizedBuffer?.tokenizedLineForRow(eventObj.newRange.end.row)
       return if not tokenizedLine?
 
       token = tokenizedLine.tokenAtBufferColumn(eventObj.newRange.end.column - 1)

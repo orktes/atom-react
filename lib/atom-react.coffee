@@ -9,7 +9,7 @@ jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
 jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
 decreaseIndentForNextLinePattern = '(?x)
 />\\s*(,|;)?\\s*$
-| ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+| ^(?!\\s*\\?)\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
 class AtomReact
   config:
@@ -322,7 +322,7 @@ class AtomReact
     jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
     decreaseIndentForNextLinePattern = '(?x)
     />\\s*(,|;)?\\s*$
-    | ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+    | ^(?!\\s*\\?)\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
     atom.config.set("react.jsxTagStartPattern", jsxTagStartPattern)
     atom.config.set("react.jsxComplexAttributePattern", jsxComplexAttributePattern)

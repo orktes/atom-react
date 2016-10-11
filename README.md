@@ -6,7 +6,7 @@ Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for mor
 
 # Changelog (notable changes)
 
-## v0.17 (11 October 2016)
+## v0.16.1 (11 October 2016)
 - Fix Atom 0.11 `TypeError: this.getRegexForProperty is not a function` error
 
 ## v0.16.0 (7 August 2016)

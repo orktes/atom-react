@@ -9,7 +9,7 @@ jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
 jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
 decreaseIndentForNextLinePattern = '(?x)
 />\\s*(,|;)?\\s*$
-| ^\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
+| ^(?!\\s*\\?)\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
 class AtomReact
   config:
@@ -44,7 +44,7 @@ class AtomReact
       return fn.call(editor.languageMode, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = @cacheRegex(decreaseIndentForNextLinePattern)
+      decreaseNextLineIndentRegex = @cacheRegex(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
       decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
@@ -77,12 +77,12 @@ class AtomReact
 
       scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
 
-      decreaseNextLineIndentRegex = @cacheRegex(decreaseIndentForNextLinePattern)
+      decreaseNextLineIndentRegex = @cacheRegex(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
       increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
       decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
-      tagStartRegex = @cacheRegex(jsxTagStartPattern)
-      complexAttributeRegex = @cacheRegex(jsxComplexAttributePattern)
+      tagStartRegex = @cacheRegex(atom.config.get('react.jsxTagStartPattern') || jsxTagStartPattern)
+      complexAttributeRegex = @cacheRegex(atom.config.get('react.jsxComplexAttributePattern') || jsxComplexAttributePattern)
 
       precedingRow = @buffer.previousNonBlankRow(bufferRow)
 

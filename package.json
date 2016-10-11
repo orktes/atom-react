@@ -6,7 +6,7 @@
   "homepage": "http://orktes.github.io/atom-react",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.150.0"
+    "atom": ">=1.11.0"
   },
   "scripts": {
     "test": "apm test"

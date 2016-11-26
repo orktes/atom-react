@@ -239,6 +239,28 @@ describe "React grammar", ->
     #expect(tokens[5]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
     #expect(tokens[6]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
 
+  it "tokenizes jsx tags inside parentheses after return", ->
+    lines = grammar.tokenizeLines """
+      return (
+        <tag></tag>
+      );
+    """
+
+    expect(lines[0][0]).toEqual value: 'return', scopes: ['source.js.jsx', 'keyword.control.js']
+    expect(lines[0][1]).toEqual value: ' ', scopes: ['source.js.jsx']
+    expect(lines[0][2]).toEqual value: '(', scopes: ['source.js.jsx', 'meta.brace.round.js']
+
+    expect(lines[1][0]).toEqual value: '  ', scopes: ['source.js.jsx']
+    expect(lines[1][1]).toEqual value: '<', scopes: ['source.js.jsx', 'tag.open.js', 'punctuation.definition.tag.begin.js']
+    expect(lines[1][2]).toEqual value: 'tag', scopes: ['source.js.jsx', 'tag.open.js', 'entity.name.tag.js']
+    expect(lines[1][3]).toEqual value: '>', scopes: ['source.js.jsx', 'tag.open.js', 'punctuation.definition.tag.end.js']
+    expect(lines[1][4]).toEqual value: '</', scopes: ['source.js.jsx', 'tag.closed.js', 'punctuation.definition.tag.begin.js']
+    expect(lines[1][5]).toEqual value: 'tag', scopes: ['source.js.jsx', 'tag.closed.js', 'entity.name.tag.js']
+    expect(lines[1][6]).toEqual value: '>', scopes: ['source.js.jsx', 'tag.closed.js', 'punctuation.definition.tag.end.js']
+
+    expect(lines[2][0]).toEqual value: ')', scopes: ['source.js.jsx', 'meta.brace.round.js']
+    expect(lines[2][1]).toEqual value: ';', scopes: ['source.js.jsx', 'punctuation.terminator.statement.js']
+
 
 
   describe "indentation", ->

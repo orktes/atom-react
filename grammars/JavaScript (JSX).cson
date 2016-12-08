@@ -12,8 +12,27 @@
     'include': '#jsx'
   }
   {
-    'match': '(?<!\\.)\\b(await|break|case|catch|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b'
+    'match': '(?<!\\.)\\b(await|break|catch|case|continue|do|else|finally|for|if|import|from|package|return|switch|throw|try|while|with)(?!\\s*:)\\b'
     'name': 'keyword.control.js'
+  }
+  {
+    'match': '(?<!\\.)\\b(default)(?=\\s*:)\\b'
+    'name': 'keyword.control.js'
+  }
+  {
+    'begin': '\\?'
+    'beginCaptures':
+      '0':
+        'name': 'keyword.operator.ternary.js'
+    'end': ':'
+    'endCaptures':
+      '0':
+        'name': 'keyword.operator.ternary.js'
+    'patterns': [
+      {
+        'include': '$self'
+      }
+    ]
   }
   {
     'begin': '{'

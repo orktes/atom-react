@@ -229,6 +229,21 @@ describe "React grammar", ->
     expect(tokens[5]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
     expect(tokens[6]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
 
+  it "tokenizes ternary operator inside jsx code section", ->
+    {tokens} = grammar.tokenizeLine('{x?<tag></tag>:null}')
+    expect(tokens[0]).toEqual value: '{', scopes: ["source.js.jsx","meta.brace.curly.js"]
+    expect(tokens[1]).toEqual value: 'x', scopes: ["source.js.jsx"]
+    expect(tokens[2]).toEqual value: '?', scopes: ["source.js.jsx", "keyword.operator.ternary.js"]
+    expect(tokens[3]).toEqual value: '<', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[4]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.open.js","entity.name.tag.js"]
+    expect(tokens[5]).toEqual value: '>', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.end.js"]
+    expect(tokens[6]).toEqual value: '</', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.begin.js"]
+    expect(tokens[7]).toEqual value: 'tag', scopes: ["source.js.jsx","tag.closed.js","entity.name.tag.js"]
+    expect(tokens[8]).toEqual value: '>', scopes: ["source.js.jsx","tag.closed.js","punctuation.definition.tag.end.js"]
+    expect(tokens[9]).toEqual value: ':', scopes: ["source.js.jsx","keyword.operator.ternary.js"]
+    expect(tokens[10]).toEqual value: 'null', scopes: ["source.js.jsx","constant.language.null.js"]
+    expect(tokens[11]).toEqual value: '}', scopes: ["source.js.jsx","meta.brace.curly.js"]
+
     #{tokens} = grammar.tokenizeLine('<tag>\'foo</tag>')
 
     #expect(tokens[0]).toEqual value: '<', scopes: ["source.js.jsx","tag.open.js","punctuation.definition.tag.begin.js"]

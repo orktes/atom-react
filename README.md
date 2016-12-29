@@ -6,6 +6,9 @@ Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for mor
 
 # Changelog (notable changes)
 
+## v0.16.2 (29 December 2016)
+- Fix highlighting issues caused by ternary operations and other `?` after updating to atom 0.12.7
+
 ## v0.16.1 (11 October 2016)
 - Fix Atom 0.11 `TypeError: this.getRegexForProperty is not a function` error (restart atom after update)
 

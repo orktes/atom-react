@@ -1,5 +1,9 @@
 {
 ".source.js":
+  "React: constructor(props){ ... }":
+    prefix: "is6"
+    body: "constructor(props) {\n\tsuper(props)\n\n\tthis.state = {\n\t\t ${1} : \'${2}\' \n\t} \n};"
+
   "React: componentDidMount: fn() { ... }":
     prefix: "cdm"
     body: "componentDidMount: function() {\n\t${1}\n},"

@@ -1,5 +1,13 @@
 {
 ".source.js":
+  "React: import ReactDOM from react-dom":
+    prefix: "imrd"
+    body: "import ReactDOM from 'react-dom';"
+
+  "React: import React from react":
+    prefix: "imr"
+    body: "import React from 'react';"
+
   "React: componentDidMount: fn() { ... }":
     prefix: "cdm"
     body: "componentDidMount: function() {\n\t${1}\n},"

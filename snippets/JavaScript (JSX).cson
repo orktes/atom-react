@@ -126,7 +126,7 @@
 
   "React: component skeleton (ES6)":
     prefix: "rcc6"
-    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
+    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\t\t${2:<div />}\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
 
   "React: stateless component (ES6)":
     prefix: "rcs"

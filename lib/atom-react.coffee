@@ -285,7 +285,7 @@ class AtomReact
             ]
           , '', {undo: 'skip'})
 
-    else if eventObj?.newText is '\n'
+    else if eventObj? and eventObj.newText.match /\r?\n/
       lines = editor.buffer.getLines()
       row = eventObj.newRange.end.row
       lastLine = lines[row - 1]

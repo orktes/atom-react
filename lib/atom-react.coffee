@@ -21,6 +21,10 @@ class AtomReact
       type: 'boolean'
       default: false
       description: 'Disabled tag autocompletion'
+    skipUndoStackForAutoCloseInsertion:
+      type: 'boolean'
+      default: true
+      description: 'When enabled, auto insert/remove closing tag mutation is skipped from normal undo/redo operation'
     detectReactFilePattern:
       type: 'string'
       default: defaultDetectReactFilePattern
@@ -244,7 +248,12 @@ class AtomReact
         line = lines[row]
 
       if tagName?
-        editor.insertText('</' + tagName + '>', {undo: 'skip'})
+        if atom.config.get('react.skipUndoStackForAutoCloseInsertion')
+          options = {undo: 'skip'}
+        else
+          options = {}
+        console.log options
+        editor.insertText('</' + tagName + '>', options)
         editor.setCursorBufferPosition(eventObj.newRange.end)
 
     else if eventObj?.oldText is '>' and eventObj?.newText is ''
@@ -277,13 +286,17 @@ class AtomReact
         rest = fullLine.substr(eventObj.newRange.end.column)
         if rest.indexOf('</' + tagName + '>') == 0
           # rest is closing tag
+          if atom.config.get('react.skipUndoStackForAutoCloseInsertion')
+            options = {undo: 'skip'}
+          else
+            options = {}
           serializedEndPoint = [eventObj.newRange.end.row, eventObj.newRange.end.column];
           editor.setTextInBufferRange(
             [
               serializedEndPoint,
               [serializedEndPoint[0], serializedEndPoint[1] + tagName.length + 3]
             ]
-          , '', {undo: 'skip'})
+          , '', options)
 
     else if eventObj? and eventObj.newText.match /\r?\n/
       lines = editor.buffer.getLines()

@@ -46,7 +46,7 @@
 
   "React: getInitialState: fn() { return {...} } ":
     prefix: "gis"
-    body: "getInitialState: function() {\n\treturn {\n\t\t${1}: ${2}\n\t};\n},"
+    body: "getInitialState: function() {\n\treturn {\n\t\t${1}:${2}\n\t};\n},"
 
   "React: isMounted()":
     prefix: "ism"

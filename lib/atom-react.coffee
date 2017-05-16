@@ -252,7 +252,7 @@ class AtomReact
           options = {undo: 'skip'}
         else
           options = {}
-        console.log options
+          
         editor.insertText('</' + tagName + '>', options)
         editor.setCursorBufferPosition(eventObj.newRange.end)
 

@@ -740,7 +740,7 @@
     'patterns': [
       {
         # functionCall(arg1, "arg2", [...])
-        'begin': '([\\w$]+)\\s*(?=\\()'
+        'begin': '(?!\\basync\\b)([\\w$]+)\\s*(?=\\()'
         'beginCaptures':
           '1':
             'patterns': [

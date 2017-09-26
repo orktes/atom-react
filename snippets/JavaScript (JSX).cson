@@ -54,11 +54,11 @@
 
   "React: propTypes { ... }":
     prefix: "pt"
-    body: "propTypes: {\n\t${1}: React.PropTypes.${2:string}\n},"
+    body: "propTypes: {\n\t${1}: PropTypes.${2:string}\n},"
 
   "React: component skeleton":
     prefix: "rcc"
-    body: "var React = require('react');\nvar PropTypes = React.PropTypes;\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};"
+    body: "var React = require('react');\nvar PropTypes = require('prop-types');\n\nvar ${1} = React.createClass({\n\n\trender: function() {\n\t\treturn (\n\t\t\t${0:<div />}\n\t\t);\n\t}\n\n});\n\nmodule.exports = ${1};"
 
   "React: render: fn() { return ... }":
     prefix: "ren"
@@ -118,19 +118,19 @@
 
   "React: static propTypes = { ... } (ES6)":
     prefix: "pt6"
-    body: "static propTypes = {\n\t${1}: React.PropTypes.${2:string}\n};"
+    body: "static propTypes = {\n\t${1}: PropTypes.${2:string}\n};"
 
   "React: class skeleton":
     prefix: "rcd"
-    body: "import React, { PropTypes } from 'react'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
+    body: "import React from 'react'\nimport PropTypes from 'prop-types'\n\nclass $1 extends React.Component {\n\trender () {\n\t\n\t}\n}\n\nexport default ${1};"
 
   "React: component skeleton (ES6)":
     prefix: "rcc6"
-    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
+    body: "import React from \'react\'\nimport PropTypes from \'prop-types\'\n\nconst $1 = React.createClass({\n\trender () {\n\t\treturn (\n\t\n\t\t)\n\t}\n})\n\nexport default ${1}\n"
 
   "React: stateless component (ES6)":
     prefix: "rcs"
-    body: "import React, { PropTypes } from \'react\'\n\nconst $1 = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1}\n"
+    body: "import React from \'react\'\nimport PropTypes from \'prop-types\'\n\nconst $1 = (${2:props}) => {\n\treturn (\n\t\t${3:<div />}\n\t)\n}\n\nexport default ${1}\n"
 
   "React: render() { return ... } (ES6)":
     prefix: "ren6"

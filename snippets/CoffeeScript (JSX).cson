@@ -46,7 +46,7 @@
 
   "React: propTypes { ... }":
     prefix: "pt"
-    body: "propTypes:\n\t${1}: React.PropTypes.${2:string}"
+    body: "propTypes:\n\t${1}: PropTypes.${2:string}"
 
   "React: component skeleton":
     prefix: "rcc"

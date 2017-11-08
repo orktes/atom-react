@@ -62,11 +62,11 @@ class AtomReact
       if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine) and
          not (increaseIndentRegex and increaseIndentRegex.testSync(precedingLine)) and
          not @isBufferRowCommented(precedingRow)
-        currentIndentLevel = @editor.indentationForBufferRow(precedingRow)
+        currentIndentLevel = @indentationForBufferRow(precedingRow)
         currentIndentLevel -= 1 if decreaseIndentRegex and decreaseIndentRegex.testSync(line)
         desiredIndentLevel = currentIndentLevel - 1
         if desiredIndentLevel >= 0 and desiredIndentLevel < currentIndentLevel
-          @editor.setIndentationForBufferRow(bufferRow, desiredIndentLevel)
+          @setIndentationForBufferRow(bufferRow, desiredIndentLevel)
       else if not @isBufferRowCommented(bufferRow)
         fn.call(editor, bufferRow, options)
 
@@ -102,8 +102,8 @@ class AtomReact
       tagStartTest = tagStartRegex.testSync(precedingLine)
       decreaseIndentTest = decreaseIndentRegex.testSync(precedingLine)
 
-      indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
-      indent -= 1 if precedingLine and not decreaseIndentTest and decreaseNextLineIndentRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
+      indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @isBufferRowCommented(precedingRow)
+      indent -= 1 if precedingLine and not decreaseIndentTest and decreaseNextLineIndentRegex.testSync(precedingLine) and not @isBufferRowCommented(precedingRow)
 
       return Math.max(indent, 0)
 

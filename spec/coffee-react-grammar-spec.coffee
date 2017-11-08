@@ -34,7 +34,7 @@ describe 'Coffee-React grammar', ->
       value: '='
       scopes: [
         'source.coffee.jsx'
-        'keyword.operator.coffee'
+        'keyword.operator.assignment.coffee'
       ]
     expect(tokens[3]).toEqual
       value: ' '

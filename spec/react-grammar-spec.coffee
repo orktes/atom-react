@@ -140,8 +140,8 @@ describe "React grammar", ->
   it "tokenizes /* */ comments", ->
     {tokens} = grammar.tokenizeLine('/**/')
 
-    expect(tokens[0]).toEqual value: '/*', scopes: ['source.js.jsx', 'comment.block.js', 'punctuation.definition.comment.begin.js']
-    expect(tokens[1]).toEqual value: '*/', scopes: ['source.js.jsx', 'comment.block.js', 'punctuation.definition.comment.end.js']
+    expect(tokens[0]).toEqual value: '/*', scopes: ['source.js.jsx', 'comment.block.empty.js', 'punctuation.definition.comment.begin.js']
+    expect(tokens[1]).toEqual value: '*/', scopes: ['source.js.jsx', 'comment.block.empty.js', 'punctuation.definition.comment.end.js']
 
     {tokens} = grammar.tokenizeLine('/* foo */')
 

@@ -6,7 +6,7 @@ Visit [orktes.github.io/atom-react](https://orktes.github.io/atom-react) for mor
 
 # Changelog (notable changes)
 
-## v0.17.8 (10 November 2017)
+## v0.17.0 (10 November 2017)
 - Fix plugin to work with latest Atom (v1.22.0)
 
 ## v0.16.3 (30 October 2017)

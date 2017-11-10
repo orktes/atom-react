@@ -41,69 +41,69 @@ class AtomReact
   constructor: ->
   patchEditorLangModeAutoDecreaseIndentForBufferRow: (editor) ->
     self = this
-    fn = editor.languageMode.autoDecreaseIndentForBufferRow
+    fn = editor.autoDecreaseIndentForBufferRow
     return if fn.jsxPatch
 
-    editor.languageMode.autoDecreaseIndentForBufferRow = (bufferRow, options) ->
-      return fn.call(editor.languageMode, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
+    editor.autoDecreaseIndentForBufferRow = (bufferRow, options) ->
+      return fn.call(editor, bufferRow, options) unless editor.getGrammar().scopeName == "source.js.jsx"
 
-      scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
-      decreaseNextLineIndentRegex = @cacheRegex(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
-      decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
-      increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      scopeDescriptor = @scopeDescriptorForBufferPosition([bufferRow, 0])
+      decreaseNextLineIndentRegex = @tokenizedBuffer.regexForPattern(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
+      decreaseIndentRegex = @tokenizedBuffer.decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      increaseIndentRegex = @tokenizedBuffer.increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
-      precedingRow = @buffer.previousNonBlankRow(bufferRow)
+      precedingRow = @tokenizedBuffer.buffer.previousNonBlankRow(bufferRow)
 
       return if precedingRow < 0
 
-      precedingLine = @buffer.lineForRow(precedingRow)
-      line = @buffer.lineForRow(bufferRow)
+      precedingLine = @tokenizedBuffer.buffer.lineForRow(precedingRow)
+      line = @tokenizedBuffer.buffer.lineForRow(bufferRow)
 
       if precedingLine and decreaseNextLineIndentRegex.testSync(precedingLine) and
          not (increaseIndentRegex and increaseIndentRegex.testSync(precedingLine)) and
-         not @editor.isBufferRowCommented(precedingRow)
-        currentIndentLevel = @editor.indentationForBufferRow(precedingRow)
+         not @isBufferRowCommented(precedingRow)
+        currentIndentLevel = @indentationForBufferRow(precedingRow)
         currentIndentLevel -= 1 if decreaseIndentRegex and decreaseIndentRegex.testSync(line)
         desiredIndentLevel = currentIndentLevel - 1
         if desiredIndentLevel >= 0 and desiredIndentLevel < currentIndentLevel
-          @editor.setIndentationForBufferRow(bufferRow, desiredIndentLevel)
-      else if not @editor.isBufferRowCommented(bufferRow)
-        fn.call(editor.languageMode, bufferRow, options)
+          @setIndentationForBufferRow(bufferRow, desiredIndentLevel)
+      else if not @isBufferRowCommented(bufferRow)
+        fn.call(editor, bufferRow, options)
 
   patchEditorLangModeSuggestedIndentForBufferRow: (editor) ->
     self = this
-    fn = editor.languageMode.suggestedIndentForBufferRow
+    fn = editor.suggestedIndentForBufferRow
     return if fn.jsxPatch
 
-    editor.languageMode.suggestedIndentForBufferRow = (bufferRow, options) ->
-      indent = fn.call(editor.languageMode, bufferRow, options)
+    editor.suggestedIndentForBufferRow = (bufferRow, options) ->
+      indent = fn.call(editor, bufferRow, options)
       return indent unless editor.getGrammar().scopeName == "source.js.jsx" and bufferRow > 1
 
-      scopeDescriptor = @editor.scopeDescriptorForBufferPosition([bufferRow, 0])
+      scopeDescriptor = @scopeDescriptorForBufferPosition([bufferRow, 0])
 
-      decreaseNextLineIndentRegex = @cacheRegex(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
-      increaseIndentRegex = @increaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      decreaseNextLineIndentRegex = @tokenizedBuffer.regexForPattern(atom.config.get('react.decreaseIndentForNextLinePattern') || decreaseIndentForNextLinePattern)
+      increaseIndentRegex = @tokenizedBuffer.increaseIndentRegexForScopeDescriptor(scopeDescriptor)
 
-      decreaseIndentRegex = @decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
-      tagStartRegex = @cacheRegex(atom.config.get('react.jsxTagStartPattern') || jsxTagStartPattern)
-      complexAttributeRegex = @cacheRegex(atom.config.get('react.jsxComplexAttributePattern') || jsxComplexAttributePattern)
+      decreaseIndentRegex = @tokenizedBuffer.decreaseIndentRegexForScopeDescriptor(scopeDescriptor)
+      tagStartRegex = @tokenizedBuffer.regexForPattern(atom.config.get('react.jsxTagStartPattern') || jsxTagStartPattern)
+      complexAttributeRegex = @tokenizedBuffer.regexForPattern(atom.config.get('react.jsxComplexAttributePattern') || jsxComplexAttributePattern)
 
-      precedingRow = @buffer.previousNonBlankRow(bufferRow)
+      precedingRow = @tokenizedBuffer.buffer.previousNonBlankRow(bufferRow)
 
       return indent if precedingRow < 0
 
-      precedingLine = @buffer.lineForRow(precedingRow)
+      precedingLine = @tokenizedBuffer.buffer.lineForRow(precedingRow)
 
       return indent if not precedingLine?
 
-      if @editor.isBufferRowCommented(bufferRow) and @editor.isBufferRowCommented(precedingRow)
-        return @editor.indentationForBufferRow(precedingRow)
+      if @isBufferRowCommented(bufferRow) and @isBufferRowCommented(precedingRow)
+        return @indentationForBufferRow(precedingRow)
 
       tagStartTest = tagStartRegex.testSync(precedingLine)
       decreaseIndentTest = decreaseIndentRegex.testSync(precedingLine)
 
-      indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
-      indent -= 1 if precedingLine and not decreaseIndentTest and decreaseNextLineIndentRegex.testSync(precedingLine) and not @editor.isBufferRowCommented(precedingRow)
+      indent += 1 if tagStartTest and complexAttributeRegex.testSync(precedingLine) and not @isBufferRowCommented(precedingRow)
+      indent -= 1 if precedingLine and not decreaseIndentTest and decreaseNextLineIndentRegex.testSync(precedingLine) and not @isBufferRowCommented(precedingRow)
 
       return Math.max(indent, 0)
 

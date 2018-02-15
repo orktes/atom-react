@@ -13,8 +13,10 @@ describe "React tests", ->
     waitsForPromise ->
       atom.packages.activatePackage("react")
 
-    afterEach ->
+  afterEach ->
+    waitsForPromise ->
       atom.packages.deactivatePackages()
+    runs ->
       atom.packages.unloadPackages()
 
   describe "should select correct grammar", ->

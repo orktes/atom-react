@@ -12,8 +12,10 @@ describe "Tag autocomplete tests", ->
           grammar = atom.grammars.grammarForScopeName("source.js.jsx")
           editor.setGrammar(grammar);
 
-    afterEach ->
+  afterEach ->
+    waitsForPromise ->
       atom.packages.deactivatePackages()
+    runs ->
       atom.packages.unloadPackages()
 
   describe "tag handling", ->

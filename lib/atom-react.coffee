@@ -131,7 +131,7 @@ class AtomReact
     # Check if file extension is .jsx or the file requires React
     extName = path.extname(editor.getPath() or '')
     if extName is ".jsx" or ((extName is ".js" or extName is ".es6") and @isReact(editor.getText()))
-      jsxGrammar = atom.grammars.grammarsByScopeName["source.js.jsx"]
+      jsxGrammar = atom.grammars.grammarForScopeName("source.js.jsx")
       editor.setGrammar jsxGrammar if jsxGrammar
 
   onHTMLToJSX: ->

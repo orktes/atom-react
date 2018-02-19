@@ -19,6 +19,9 @@ Initially a port of [sublime-react](https://github.com/reactjs/sublime-react) fo
 
 # Changelog (notable changes)
 
+## v0.18.0 (19 February 2018)
+- Fix plugin to work with latest Atom (v1.24.0)
+
 ## v0.17.0 (10 November 2017)
 - Fix plugin to work with latest Atom (v1.22.0)
 
@@ -49,4 +52,3 @@ Initially a port of [sublime-react](https://github.com/reactjs/sublime-react) fo
 
 ## 0.11 (5 April 2015)
 - Closing tag auto-completion [in action](https://cloud.githubusercontent.com/assets/606347/6997161/28412172-dbb9-11e4-9719-2d58b0b79b3f.gif)
-

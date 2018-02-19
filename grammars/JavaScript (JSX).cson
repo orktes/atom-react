@@ -1,6 +1,5 @@
 'name': 'JavaScript (JSX)'
 'scopeName': 'source.js.jsx'
-'injectionSelector': 'source.embedded.jsx'
 'fileTypes': [
   'jsx',
   'react.js'

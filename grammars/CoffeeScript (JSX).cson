@@ -1,6 +1,5 @@
 'name': 'CoffeeScript (JSX)'
 'scopeName': 'source.coffee.jsx'
-'injectionSelector': 'source.embedded.cjsx'
 'comment': 'Coffee-React Syntax'
 'fileTypes': [
   'cjsx'

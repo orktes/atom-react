@@ -8,7 +8,7 @@ autoCompleteTagCloseRegex = /(<\/)([^>]+)(>)/g
 jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
 jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'
 decreaseIndentForNextLinePattern = '(?x)
-/>\\s*(,|;)?\\s*$
+\\S+\\s*/>\\s*(,|;)?\\s*$
 | ^(?!\\s*\\?)\\s*\\S+.*</[-_\\.A-Za-z0-9]+>$'
 
 class AtomReact
@@ -252,7 +252,7 @@ class AtomReact
           options = {undo: 'skip'}
         else
           options = {}
-          
+
         editor.insertText('</' + tagName + '>', options)
         editor.setCursorBufferPosition(eventObj.newRange.end)
 

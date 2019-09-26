@@ -484,7 +484,23 @@
         'name': 'punctuation.definition.tag.end.js'
   'jsx-tag-invalid':
     'name': 'invalid.illegal.tag.incomplete.js'
-    'match': '<\\s*>'
+    'match': '<\\s+>'
+  'jsx-tag-fragment-open':
+    'match': '(<)(>)'
+    'name': 'tag.open.js'
+    'captures':
+      '1':
+        'name': 'punctuation.definition.tag.begin.js'
+      '2':
+        'name': 'punctuation.definition.tag.end.js'
+  'jsx-tag-fragment-close':
+    'match': '(</)(>)'
+    'name': 'tag.closed.js'
+    'captures':
+      '1':
+        'name': 'punctuation.definition.tag.begin.js'
+      '2':
+        'name': 'punctuation.definition.tag.end.js'
   'jsx':
     'name': 'meta.jsx.js'
     'patterns': [
@@ -496,6 +512,12 @@
       }
       {
         'include': '#jsx-tag-invalid'
+      }
+      {
+        'include': '#jsx-tag-fragment-open'
+      }
+      {
+        'include': '#jsx-tag-fragment-close'
       }
     ]
   'docblock':

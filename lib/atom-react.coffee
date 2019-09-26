@@ -2,8 +2,8 @@
 
 contentCheckRegex = null
 defaultDetectReactFilePattern = '/((require\\([\'"]react(?:(-native|\\/addons))?[\'"]\\)))|(import\\s+[\\w{},\\s]+\\s+from\\s+[\'"]react(?:(-native|\\/addons))?[\'"])/'
-autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]+)/g
-autoCompleteTagCloseRegex = /(<\/)([^>]+)(>)/g
+autoCompleteTagStartRegex = /(<)([a-zA-Z0-9\.:$_]*)/g
+autoCompleteTagCloseRegex = /(<\/)([^>]*)(>)/g
 
 jsxTagStartPattern = '(?x)((^|=|return)\\s*<([^!/?](?!.+?(</.+?>))))'
 jsxComplexAttributePattern = '(?x)\\{ [^}"\']* $|\\( [^)"\']* $'

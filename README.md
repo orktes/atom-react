@@ -1,3 +1,6 @@
+This project is no longer mantained.
+
+
 [![Build Status](https://travis-ci.org/orktes/atom-react.svg?branch=master)](https://travis-ci.org/orktes/atom-react)
 
 # Atom React.js support

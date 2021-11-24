@@ -8,6 +8,10 @@
     prefix: "imr"
     body: "import React from 'react';"
 
+  "React: import React, { useState } from react":
+    prefix: "imrs"
+    body: "import React, { useState } from 'react';"
+
   "React: componentDidMount: fn() { ... }":
     prefix: "cdm"
     body: "componentDidMount: function() {\n\t${1}\n},"
